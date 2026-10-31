@@ -1,191 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>WatchWell - Beats TikTok | Watch. Shop. Meet.</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
-body{background:#07070a;color:#fff;min-height:100vh}
-.top{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(7,7,10,.98);backdrop-filter:blur(20px);border-bottom:1px solid #1a1a22;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:30}
-.logo{font-weight:900;font-size:20px;display:flex;align-items:center;gap:8px;letter-spacing:-.5px}
-.logo b{width:32px;height:32px;background:linear-gradient(135deg,#ff3b6e,#ffb02e);border-radius:9px;display:flex;align-items:center;justify-content:center}
-.filter-bar{position:fixed;top:56px;left:0;right:0;height:44px;background:rgba(7,7,10,.95);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;gap:6px;z-index:20;border-bottom:1px solid #111}
-.pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:#111118;color:#666;border:1px solid #1e1e2a}
-.pill.on{background:#fff;color:#000;border-color:#fff}
-.main{padding:108px 0 84px;max-width:600px;margin:0 auto}
-.card{background:#101017;border:1px solid #1c1c26;border-radius:18px;margin:0 10px 12px;overflow:hidden}
-.ch{padding:10px 12px;display:flex;gap:10px;align-items:center}
-.av{width:38px;height:38px;border-radius:50%;object-fit:cover}
-.badge{font-size:9px;padding:3px 7px;border-radius:10px;font-weight:900;letter-spacing:.5px}
-.b-shop{background:#ffb02e;color:#000}
-.b-meet{background:#ff3b6e;color:#fff}
-.b-watch{background:#fff;color:#000}
-.cv{position:relative;background:#000;aspect-ratio:9/11;max-height:560px;overflow:hidden}
-.cv video,.cv img{width:100%;height:100%;object-fit:cover;display:block}
-.grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,0) 50%)}
-.info{position:absolute;bottom:0;left:0;right:0;padding:12px}
-.actions{padding:10px 12px;display:flex;justify-content:space-between;align-items:center}
-.acts{display:flex;gap:8px}
-.a{padding:7px 12px;background:#181822;border:1px solid #222;border-radius:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none}
-.a:active{transform:scale(.96)}
-.a.on{background:#ff3b6e;color:#fff;border-color:#ff3b6e}
-.buy{padding:8px 14px;border-radius:20px;border:none;font-weight:800;font-size:12px;cursor:pointer}
-.buy-shop{background:linear-gradient(135deg,#ffb02e,#ff8a3d);color:#000}
-.buy-meet{background:linear-gradient(135deg,#ff3b6e,#ff6e9a);color:#fff}
-.buy-watch{background:#1e1e2a;color:#fff;border:1px solid #2a2a3a}
-.nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(7,7,10,.99);border-top:1px solid #1a1a22;display:flex;justify-content:space-around;align-items:center;z-index:30;padding-bottom:8px}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#555;font-size:10px;font-weight:700;cursor:pointer}
-.ni.on{color:#fff}
-.ni i{font-size:20px;font-style:normal}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
-.modal.on{display:flex}
-.box{width:100%;max-width:420px;background:#12121a;border:1px solid #222;border-radius:20px;padding:20px;max-height:92vh;overflow:auto}
-.inp{width:100%;padding:12px;background:#07070a;border:1px solid #222;border-radius:10px;color:#fff;margin-bottom:8px;outline:none;font-size:14px}
-.inp:focus{border-color:#ffb02e}
-.btn{width:100%;padding:12px;border-radius:10px;border:none;font-weight:800;cursor:pointer;font-size:14px}
-.btn-p{background:linear-gradient(135deg,#ff3b6e,#ffb02e);color:#fff}
-.btn-o{background:#1a1a22;color:#fff;border:1px solid #222}
-.chat{position:fixed;inset:0;background:#07070a;z-index:70;display:none;flex-direction:column}
-.chat.on{display:flex}
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:10px 18px;border-radius:20px;font-size:12px;font-weight:800;z-index:100;display:none;white-space:nowrap}
-.toast.on{display:block}
-.win{position:fixed;top:100px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff3b6e,#ffb02e);color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:900;z-index:15;letter-spacing:.3px;text-align:center;white-space:nowrap}
-</style>
-</head>
-<body>
-<div class="top">
-<div class="logo"><b>W</b>WatchWell <span style="font-size:9px;background:#ffb02e;color:#000;padding:3px 6px;border-radius:6px">BEATS TIKTOK</span></div>
-<div style="display:flex;gap:6px">
-<button id="authBtn" onclick="openAuth()" style="padding:7px 12px;background:#15151f;border:1px solid #222;border-radius:20px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">Login</button>
-<button onclick="openUp()" style="padding:7px 12px;background:#fff;color:#000;border:none;border-radius:20px;font-size:12px;font-weight:800;cursor:pointer">+ Post</button>
-</div>
-</div>
-<div class="filter-bar">
-<span class="pill on" id="pAll" onclick="setFilter('all')">All</span>
-<span class="pill" id="pWatch" onclick="setFilter('watch')">🎬 Watch</span>
-<span class="pill" id="pShop" onclick="setFilter('shop')">🛒 Shop</span>
-<span class="pill" id="pMeet" onclick="setFilter('meet')">❤️ Meet</span>
-</div>
-<div class="win">🏆 WHY WE WIN: TikTok = Only Watch | WatchWell = Watch + Shop + Meet + Chat</div>
-<div class="main" id="feed"></div>
-<div class="nav">
-<div class="ni on" onclick="setFilter('all')"><i>🏠</i>Home</div>
-<div class="ni" onclick="setFilter('shop')"><i>🛒</i>Shop</div>
-<div class="ni" onclick="setFilter('meet')"><i>❤️</i>Meet</div>
-<div class="ni" id="inboxN" onclick="openInbox()"><i>💬</i>Inbox</div>
-<div class="ni" onclick="openMe()"><i>👤</i>Me</div>
-</div>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>WatchWell - Real Only</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}body{background:#07070a;color:#fff;min-height:100vh}.wall{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#07070a,#151525);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}.wall.hide{display:none}.wall h1{font-size:42px;font-weight:900;line-height:.9}.wall h1 span{background:linear-gradient(135deg,#ff3b6e,#ffb02e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.box{width:100%;max-width:380px;background:#101017;border:1px solid #1e1e2a;border-radius:20px;padding:20px;margin-top:20px}.inp{width:100%;padding:12px;background:#07070a;border:1px solid #222;border-radius:10px;color:#fff;margin-bottom:8px;outline:none}.btn{width:100%;padding:12px;border-radius:10px;border:none;font-weight:800;cursor:pointer}.btn-p{background:linear-gradient(135deg,#ff3b6e,#ffb02e);color:#fff}.tabs{display:flex;background:#07070a;padding:4px;border-radius:10px;margin-bottom:12px}.tab{flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;color:#666;font-weight:700}.tab.on{background:#fff;color:#000}.app{display:none;min-height:100vh}.app.on{display:block}.top{position:fixed;top:0;left:0;right:0;height:56px;background:#07070a;border-bottom:1px solid #1a1a22;display:flex;align-items:center;justify-content:space-between;padding:0 14px;z-index:20}.logo{font-weight:900;font-size:20px;display:flex;gap:8px;align-items:center}.logo b{width:32px;height:32px;background:linear-gradient(135deg,#ff3b6e,#ffb02e);border-radius:9px;display:flex;align-items:center;justify-content:center}.main{padding:70px 0 80px;max-width:600px;margin:0 auto}.card{background:#101017;border:1px solid #1c1c26;border-radius:18px;margin:10px;overflow:hidden}.ch{padding:10px 12px;display:flex;gap:10px;align-items:center}.av{width:38px;height:38px;border-radius:50%}.cv{background:#000;aspect-ratio:9/11;max-height:560px}.cv video,.cv img{width:100%;height:100%;object-fit:cover}.actions{padding:10px 12px;display:flex;justify-content:space-between}.a{padding:7px 12px;background:#181822;border:1px solid #222;border-radius:20px;font-size:12px;cursor:pointer}.a.on{background:#ff3b6e;color:#fff;border-color:#ff3b6e}.nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#07070a;border-top:1px solid #1a1a22;display:flex;justify-content:space-around;align-items:center;z-index:20}.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#555;font-size:10px;font-weight:700;cursor:pointer}.ni.on{color:#fff}.chat{position:fixed;inset:0;background:#07070a;z-index:50;display:none;flex-direction:column}.chat.on{display:flex}.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:20px;font-size:12px;font-weight:800;z-index:99;display:none}.toast.on{display:block}</style></head><body>
+<div class="wall" id="wall"><div style="width:60px;height:60px;background:linear-gradient(135deg,#ff3b6e,#ffb02e);border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:28px;margin-bottom:16px">W</div><h1>Watch.<br>Shop.<br><span>Meet.</span></h1><p style="color:#888;font-size:15px;margin:14px 0;max-width:320px">No fake posts. Real people only. Sign up to see & post!</p><div class="box"><div class="tabs"><div class="tab on" id="tL" onclick="setTab('login')">Login</div><div class="tab" id="tR" onclick="setTab('register')">Sign Up</div></div><input id="eIn" class="inp" placeholder="Email"><input id="pIn" type="password" class="inp" placeholder="Password"><input id="nIn" class="inp" placeholder="Your Name / Shop Name" style="display:none"><button id="aBtn" class="btn btn-p" onclick="doAuth()">Login</button><div id="msg" style="font-size:12px;text-align:center;margin-top:8px;display:none"></div></div></div>
+<div class="app" id="app"><div class="top"><div class="logo"><b>W</b>WatchWell</div><div style="display:flex;gap:6px"><span id="uName" style="padding:7px 12px;background:#15151f;border-radius:20px;font-size:12px">User</span><button onclick="logout()" style="padding:7px 12px;background:#1a1a22;border:1px solid #222;border-radius:20px;color:#fff;font-size:12px;cursor:pointer">Logout</button></div></div><div class="main" id="feed"></div><div class="nav"><div class="ni on"><i>🏠</i>Home</div><div class="ni" onclick="openPost()"><i>➕</i>Post</div><div class="ni" onclick="openInbox()"><i>💬</i>Inbox</div><div class="ni" onclick="openMe()"><i>👤</i>Me</div></div></div>
+<div class="chat" id="chatM"><div style="height:56px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #1c1c26"><span onclick="closeChat()" style="cursor:pointer;background:#15151f;padding:6px 10px;border-radius:50%">←</span><img id="cImg" style="width:36px;height:36px;border-radius:50%"><b id="cName">Name</b></div><div id="cBody" style="flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px"></div><div style="display:flex;gap:8px;padding:10px;border-top:1px solid #1c1c26"><input id="cIn" placeholder="Message..." style="flex:1;padding:11px 14px;background:#101017;border:1px solid #222;border-radius:20px;color:#fff;outline:none" onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()" style="padding:10px 16px;background:linear-gradient(135deg,#ff3b6e,#ffb02e);border:none;border-radius:20px;color:#fff;font-weight:800;cursor:pointer">Send</button></div></div>
+<div id="postM" style="position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:60;display:none;align-items:center;justify-content:center;padding:16px"><div class="box"><div style="display:flex;justify-content:space-between"><h3>New Post</h3><span onclick="closePost()" style="cursor:pointer;background:#222;padding:5px 10px;border-radius:50%">✕</span></div><div onclick="document.getElementById('fIn').click()" style="border:2px dashed #333;border-radius:12px;padding:18px;text-align:center;cursor:pointer;margin:12px 0"><div id="upTxt">📤 Tap to add photo/video</div><input type="file" id="fIn" accept="image/*,video/*" style="display:none"><img id="pImg" style="width:100%;border-radius:10px;margin-top:10px;display:none;max-height:200px;object-fit:cover"><video id="pVid" style="width:100%;border-radius:10px;margin-top:10px;display:none;max-height:200px" controls></video></div><input id="tIn" class="inp" placeholder="Title"><input id="dIn" class="inp" placeholder="Description"><button class="btn btn-p" onclick="publish()">Post Now 🚀</button></div></div>
 <div class="toast" id="toast"></div>
-
-<div class="modal" id="authM"><div class="box">
-<div style="display:flex;justify-content:space-between;align-items:center"><h3 id="aTitle">Join WatchWell</h3><span onclick="closeAuth()" style="cursor:pointer;background:#222;padding:5px 10px;border-radius:50%">✕</span></div>
-<p style="font-size:12px;color:#888;margin:8px 0">TikTok is for watching. WatchWell is for earning & meeting. 100% Lagos!</p>
-<div style="display:flex;background:#07070a;padding:4px;border-radius:10px;margin:12px 0">
-<div id="tL" onclick="setTab('login')" style="flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;background:#fff;color:#000;font-weight:700">Login</div>
-<div id="tR" onclick="setTab('register')" style="flex:1;padding:8px;text-align:center;border-radius:8px;cursor:pointer;color:#666">Sign Up</div>
-</div>
-<input id="eIn" class="inp" placeholder="Email">
-<input id="pIn" type="password" class="inp" placeholder="Password">
-<input id="nIn" class="inp" placeholder="Your Name / Shop Name" style="display:none">
-<button id="aBtn" class="btn btn-p" onclick="doAuth()">Login</button>
-<p style="font-size:11px;color:#555;text-align:center;margin-top:10px">Demo: Any email & password works! 100% clickable</p>
-</div></div>
-
-<div class="modal" id="upM"><div class="box">
-<div style="display:flex;justify-content:space-between"><h3>Post to Win TikTok</h3><span onclick="closeUp()" style="cursor:pointer;background:#222;padding:5px 10px;border-radius:50%">✕</span></div>
-<div style="display:flex;gap:6px;margin:12px 0">
-<span id="ptW" onclick="setPType('watch')" style="flex:1;padding:8px;text-align:center;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:#000">🎬 Watch</span>
-<span id="ptS" onclick="setPType('shop')" style="flex:1;padding:8px;text-align:center;border-radius:20px;font-size:12px;cursor:pointer;background:#15151f;color:#fff">🛒 Shop</span>
-<span id="ptM" onclick="setPType('meet')" style="flex:1;padding:8px;text-align:center;border-radius:20px;font-size:12px;cursor:pointer;background:#15151f;color:#fff">❤️ Meet</span>
-</div>
-<div onclick="document.getElementById('fIn').click()" style="border:2px dashed #333;border-radius:12px;padding:18px;text-align:center;cursor:pointer">
-<div id="upTxt">📤 Tap to add photo / video</div>
-<input type="file" id="fIn" accept="image/*,video/*" style="display:none">
-<img id="pImg" style="width:100%;border-radius:10px;margin-top:10px;display:none;max-height:200px;object-fit:cover">
-<video id="pVid" style="width:100%;border-radius:10px;margin-top:10px;display:none;max-height:200px" controls></video>
-</div>
-<input id="tIn" class="inp" placeholder="Title - e.g. My Engine Repair Shop">
-<input id="dIn" class="inp" placeholder="Description + location">
-<input id="prIn" class="inp" placeholder="Price e.g. ₦8,500 (if selling)">
-<button class="btn btn-p" onclick="publish()">Post to WatchWell & Beat TikTok 🚀</button>
-</div></div>
-
-<div class="chat" id="chatM">
-<div style="height:56px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #1c1c26;background:#07070a">
-<span onclick="closeChat()" style="cursor:pointer;background:#15151f;padding:6px 10px;border-radius:50%">←</span>
-<img id="cImg" style="width:36px;height:36px;border-radius:50%">
-<b id="cName">Name</b>
-<button id="cBuy" style="margin-left:auto;padding:6px 12px;background:#ffb02e;color:#000;border:none;border-radius:20px;font-weight:800;font-size:12px;display:none" onclick="buyNow()">Buy 🛒</button>
-</div>
-<div id="cBody" style="flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#07070a"></div>
-<div style="display:flex;gap:8px;padding:10px;border-top:1px solid #1c1c26;background:#07070a">
-<input id="cIn" placeholder="Ask price, flirt, chat..." style="flex:1;padding:11px 14px;background:#101017;border:1px solid #222;border-radius:20px;color:#fff;outline:none" onkeydown="if(event.key==='Enter')sendMsg()">
-<button onclick="sendMsg()" style="padding:10px 16px;background:linear-gradient(135deg,#ff3b6e,#ffb02e);border:none;border-radius:20px;color:#fff;font-weight:800;cursor:pointer">Send</button>
-</div>
-</div>
-
 <script>
-let tab='login',pType='watch',me=JSON.parse(localStorage.getItem('ww_me')||'null'),posts=JSON.parse(localStorage.getItem('ww_posts')||'null'),likes=new Set(JSON.parse(localStorage.getItem('ww_likes')||'[]')),filter='all',curChat=null,chats=JSON.parse(localStorage.getItem('ww_chats')||'{}'),media=null,isVid=false;
-const def=[
-{id:'1',type:'watch',title:'Chrismos Auto Care - Full Rebuild',desc:'We fix all bikes in Lagos 🔧 Ikeja shop! Follow for repair tips',price:'',user:'Chrismos',av:'https://i.pravatar.cc/150?img=8',media:'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',isVideo:true,likes:2341},
-{id:'2',type:'shop',title:'Yamaha Engine Oil Original',desc:'Original oil. Delivery in Lagos today! WhatsApp to buy',price:'₦8,500',user:'BikeHub Store',av:'https://i.pravatar.cc/150?img=15',media:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600',isVideo:false,likes:892},
-{id:'3',type:'meet',title:'Amaka, 24 - Loves Bikes',desc:'Single in Lagos 😍 Love mechanics who can fix hearts too! Lets meet?',price:'',user:'Amaka',av:'https://i.pravatar.cc/150?img=5',media:'https://i.pravatar.cc/400?img=5',isVideo:false,likes:4521},
-{id:'4',type:'shop',title:'Motorcycle Chain Durable',desc:'Strong chain for all bikes. Warranty! Ladipo shop',price:'₦12,000',user:'Tunde Parts',av:'https://i.pravatar.cc/150?img=20',media:'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600',isVideo:false,likes:321},
-{id:'5',type:'watch',title:'Fix brake in 2 mins tutorial',desc:'Save money! Quick tutorial - WatchWell only, not TikTok',price:'',user:'BeltPro',av:'https://i.pravatar.cc/150?img=12',media:'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',isVideo:true,likes:1123},
-{id:'6',type:'meet',title:'David, 27 - Mechanic & Romantic',desc:'Mechanic by day, romantic by night 🏍️ Looking for queen',price:'',user:'David',av:'https://i.pravatar.cc/150?img=8',media:'https://i.pravatar.cc/400?img=8',isVideo:false,likes:2103}
-];
-if(!posts)posts=def;
-function save(){localStorage.setItem('ww_posts',JSON.stringify(posts));localStorage.setItem('ww_likes',JSON.stringify([...likes]));localStorage.setItem('ww_chats',JSON.stringify(chats));localStorage.setItem('ww_me',JSON.stringify(me))}
-function toast(t){let e=document.getElementById('toast');e.innerText=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2300)}
-function setFilter(f){filter=f;document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));document.getElementById('p'+f.charAt(0).toUpperCase()+f.slice(1)).classList.add('on');document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));render()}
-function render(){let list=posts;if(filter!=='all')list=posts.filter(p=>p.type===filter);document.getElementById('feed').innerHTML=list.map(p=>`
-<div class="card">
-<div class="ch">
-<img class="av" src="${p.av}">
-<div style="flex:1;min-width:0">
-<div style="font-weight:700;font-size:13px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">${p.title.slice(0,30)} <span class="badge ${p.type==='shop'?'b-shop':p.type==='meet'?'b-meet':'b-watch'}">${p.type==='shop'?'🛒 SHOP':p.type==='meet'?'❤️ MEET':'🎬 WATCH'}</span></div>
-<div style="font-size:11px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">@${p.user} ${p.price?`• <b style="color:#ffb02e">${p.price}</b>`:''} • 2h ago</div>
-</div>
-<div onclick="openChat('${p.user}','${p.id}')" style="cursor:pointer;padding:6px">⋮</div>
-</div>
-<div class="cv" onclick="${p.isVideo?'const v=this.querySelector(\'video\');v.paused?v.play():v.pause()':`openChat('${p.user}','${p.id}')`}">
-${p.isVideo?`<video src="${p.media}" loop playsinline preload="metadata"></video>`:`<img src="${p.media}">`}
-<div class="grad"></div>
-<div class="info"><div style="font-size:13px;line-height:1.35">${p.desc}</div></div>
-</div>
-<div class="actions">
-<div class="acts">
-<div class="a ${likes.has(p.id)?'on':''}" onclick="like('${p.id}',this)">${likes.has(p.id)?'❤️':'🤍'} <span>${p.likes}</span></div>
-<div class="a" onclick="openChat('${p.user}','${p.id}')">💬 Chat</div>
-<div class="a" onclick="sharePost('${p.id}')">↗️ Share</div>
-</div>
-${p.type==='shop'?`<button class="buy buy-shop" onclick="buyFrom('${p.id}')">Buy ${p.price||'Now'} 🛒</button>`:p.type==='meet'?`<button class="buy buy-meet" onclick="openChat('${p.user}','${p.id}')">Hi ❤️</button>`:`<button class="buy buy-watch" onclick="openChat('${p.user}','${p.id}')">Message</button>`}
-</div>
-</div>`).join('')||`<div style="text-align:center;padding:60px 20px;color:#666">No ${filter} posts yet. Be first to post!</div>`;
-let b=document.getElementById('authBtn');
-if(me){b.innerText=me.name;b.onclick=()=>{if(confirm('Logout '+me.name+'?')){me=null;localStorage.removeItem('ww_me');render();toast('Logged out')}}}else{b.innerText='Login';b.onclick=openAuth}
-}
-function like(id,el){if(!me){openAuth();toast('Login to like!');return}let p=posts.find(x=>x.id===id);if(likes.has(id)){likes.delete(id);p.likes--;el.classList.remove('on');el.innerHTML=`🤍 <span>${p.likes}</span>`}else{likes.add(id);p.likes++;el.classList.add('on');el.innerHTML=`❤️ <span>${p.likes}</span>`;if(navigator.vibrate)navigator.vibrate(30);toast('Liked! ❤️')}save()}
-function sharePost(id){let url='https://watchwellofficial.github.io/watchwell/?p='+id;navigator.clipboard.writeText(url).then(()=>toast('Link copied! 🔗 Share to beat TikTok')).catch(()=>prompt('Copy:',url))}
-function openAuth(){document.getElementById('authM').classList.add('on')}function closeAuth(){document.getElementById('authM').classList.remove('on')}
-function setTab(t){tab=t;document.getElementById('tL').style.background=t==='login'?'#fff':'transparent';document.getElementById('tL').style.color=t==='login'?'#000':'#666';document.getElementById('tR').style.background=t==='register'?'#fff':'transparent';document.getElementById('tR').style.color=t==='register'?'#000':'#666';document.getElementById('nIn').style.display=t==='register'?'block':'none';document.getElementById('aTitle').innerText=t==='register'?'Create Account - Beat TikTok':'Welcome Back';document.getElementById('aBtn').innerText=t==='register'?'Create & Win ❤️':'Login'}
-function doAuth(){let e=document.getElementById('eIn').value.trim();let pw=document.getElementById('pIn').value.trim();let n=document.getElementById('nIn').value.trim()||e.split('@')[0]||'User';if(!e||!pw){toast('Enter email & password');return}me={email:e,name:n};let all=JSON.parse(localStorage.getItem('ww_all')||'[]');all.push(me);localStorage.setItem('ww_all',JSON.stringify(all));save();closeAuth();render();toast(tab==='register'?'Account created! You beat TikTok ✅':'Welcome '+n+'! ✅')}
-function setPType(t){pType=t;document.getElementById('ptW').style.background=t==='watch'?'#fff':'#15151f';document.getElementById('ptW').style.color=t==='watch'?'#000':'#fff';document.getElementById('ptS').style.background=t==='shop'?'#fff':'#15151f';document.getElementById('ptS').style.color=t==='shop'?'#000':'#fff';document.getElementById('ptM').style.background=t==='meet'?'#fff':'#15151f';document.getElementById('ptM').style.color=t==='meet'?'#000':'#fff'}
-function openUp(){if(!me){openAuth();toast('Login to post!');return}document.getElementById('upM').classList.add('on')}function closeUp(){document.getElementById('upM').classList.remove('on')}
+let tab='login',me=JSON.parse(localStorage.getItem('ww_real_me')||'null'),posts=JSON.parse(localStorage.getItem('ww_real_posts')||'[]'),likes=new Set(JSON.parse(localStorage.getItem('ww_real_likes')||'[]')),curChat=null,chats=JSON.parse(localStorage.getItem('ww_real_chats')||'{}'),media=null,isVid=false;
+function save(){localStorage.setItem('ww_real_me',JSON.stringify(me));localStorage.setItem('ww_real_posts',JSON.stringify(posts));localStorage.setItem('ww_real_likes',JSON.stringify([...likes]));localStorage.setItem('ww_real_chats',JSON.stringify(chats))}
+function init(){if(me){document.getElementById('wall').classList.add('hide');document.getElementById('app').classList.add('on');document.getElementById('uName').innerText=me.name;render();}else{document.getElementById('wall').classList.remove('hide');document.getElementById('app').classList.remove('on');}}
+function setTab(t){tab=t;document.getElementById('tL').classList.toggle('on',t==='login');document.getElementById('tR').classList.toggle('on',t==='register');document.getElementById('nIn').style.display=t==='register'?'block':'none';document.getElementById('aBtn').innerText=t==='register'?'Sign Up':'Login'}
+function toast(t){let e=document.getElementById('toast');e.innerText=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2000)}
+function doAuth(){let e=document.getElementById('eIn').value.trim();let p=document.getElementById('pIn').value.trim();let n=document.getElementById('nIn').value.trim()||e.split('@')[0]||'User';let m=document.getElementById('msg');if(!e||!p){m.style.display='block';m.style.color='#ff6b6b';m.innerText='Enter email & password';return}if(p.length<4){m.style.display='block';m.style.color='#ff6b6b';m.innerText='Password min 4';return}let all=JSON.parse(localStorage.getItem('ww_real_all')||'[]');if(tab==='register'){if(all.find(a=>a.email===e)){m.style.display='block';m.style.color='#ff6b6b';m.innerText='Email exists, login';setTab('login');return}me={email:e,name:n,pass:p,id:Date.now().toString()};all.push(me);localStorage.setItem('ww_real_all',JSON.stringify(all));}else{let found=all.find(a=>a.email===e&&a.pass===p);if(!found){m.style.display='block';m.style.color='#ff6b6b';m.innerText='Wrong! Sign up first';return}me=found;}save();init();toast('Welcome '+me.name+'!')}
+function logout(){if(confirm('Logout?')){me=null;localStorage.removeItem('ww_real_me');init()}}
+function render(){let feed=document.getElementById('feed');if(!posts.length){feed.innerHTML=`<div style="text-align:center;padding:80px 20px"><div style="font-size:60px">👋</div><h3 style="margin:12px 0">Welcome ${me.name}!</h3><p style="color:#888;font-size:14px">No posts yet - you are first!<br>Tap Post to create first real post!</p><button class="btn btn-p" style="max-width:200px;margin:20px auto" onclick="openPost()">+ Create First Post</button><p style="font-size:11px;color:#555;margin-top:20px">Fake posts deleted! Only real users.</p></div>`;return;}feed.innerHTML=posts.map(p=>`<div class="card"><div class="ch"><img class="av" src="${p.av}"><div style="flex:1"><div style="font-weight:700;font-size:13px">${p.title}</div><div style="font-size:11px;color:#777">@${p.user}</div></div></div><div class="cv">${p.isVideo?`<video src="${p.media}" loop playsinline controls></video>`:`<img src="${p.media}">`}</div><div class="actions"><div style="display:flex;gap:8px"><div class="a ${likes.has(p.id)?'on':''}" onclick="like('${p.id}',this)">${likes.has(p.id)?'❤️':'🤍'} <span>${p.likes}</span></div><div class="a" onclick="openChat('${p.user}')">💬 Message</div></div><div class="a" onclick="sharePost('${p.id}')">↗️ Share</div></div><div style="padding:0 12px 12px;font-size:13px"><b>${p.user}</b> ${p.desc}</div></div>`).join('');}
+function openPost(){document.getElementById('postM').style.display='flex'}function closePost(){document.getElementById('postM').style.display='none'}
 document.getElementById('fIn').addEventListener('change',function(){let f=this.files[0];if(!f)return;isVid=f.type.startsWith('video');let url=URL.createObjectURL(f);media=url;document.getElementById('upTxt').innerText=f.name;if(isVid){let v=document.getElementById('pVid');v.src=url;v.style.display='block';document.getElementById('pImg').style.display='none'}else{let i=document.getElementById('pImg');i.src=url;i.style.display='block';document.getElementById('pVid').style.display='none'}})
-function publish(){let title=document.getElementById('tIn').value||'My Post';let desc=document.getElementById('dIn').value||'#watchwell beats tiktok';let price=document.getElementById('prIn').value||'';if(!media){toast('Add photo/video first!');return}let np={id:Date.now().toString(),type:pType,title,desc,price,user:me.name,av:'https://i.pravatar.cc/150?u='+me.email,media,isVideo:isVid,likes:0};posts.unshift(np);save();closeUp();render();setFilter(pType);toast('Posted! You beat TikTok 🚀');document.getElementById('tIn').value='';document.getElementById('dIn').value='';document.getElementById('prIn').value='';media=null;document.getElementById('pImg').style.display='none';document.getElementById('pVid').style.display='none';document.getElementById('upTxt').innerText='📤 Tap to add photo / video'}
-function openChat(user,id){if(!me){openAuth();toast('Login to chat/buy/meet!');return}curChat=user;document.getElementById('chatM').classList.add('on');document.getElementById('cName').innerText=user;let post=posts.find(p=>p.id===id)||posts.find(p=>p.user===user)||posts[0];document.getElementById('cImg').src=post.av;let buyBtn=document.getElementById('cBuy');buyBtn.style.display=post.type==='shop'?'block':'none';buyBtn.innerText=post.price?`Buy ${post.price} 🛒`:'Buy 🛒';buyBtn.dataset.id=id||post.id;let key=me.email+'_'+user;let h=chats[key]||[];document.getElementById('cBody').innerHTML=(h.length?h:[{me:false,text:post.type==='shop'?`Hi! I'm ${user}. Price ${post.price||'negotiable'}. Want to buy? 🛒`:post.type==='meet'?`Hey ${me.name}! 😍 Thanks for saying hi! Want to meet in Lagos? ❤️`:`Thanks for watching my video! 🔧 How can I help?`}]).map(m=>`<div style="max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;${m.me?'align-self:flex-end;background:linear-gradient(135deg,#ff3b6e,#ffb02e)':'align-self:flex-start;background:#101017;border:1px solid #1c1c26'}">${m.text}</div>`).join('');document.getElementById('cBody').scrollTop=9999}
+function publish(){let title=document.getElementById('tIn').value||'My Post';let desc=document.getElementById('dIn').value||'#watchwell';if(!media){toast('Add photo/video!');return}let np={id:Date.now().toString(),title,desc,user:me.name,av:'https://i.pravatar.cc/150?u='+me.email,media,isVideo:isVid,likes:0};posts.unshift(np);save();closePost();render();toast('Posted! Real user only ✅')}
+function like(id,el){let p=posts.find(x=>x.id===id);if(likes.has(id)){likes.delete(id);p.likes--;el.classList.remove('on');el.innerHTML=`🤍 <span>${p.likes}</span>`}else{likes.add(id);p.likes++;el.classList.add('on');el.innerHTML=`❤️ <span>${p.likes}</span>`}save()}
+function sharePost(id){let url='https://watchwellofficial.github.io/watchwell/?p='+id;navigator.clipboard.writeText(url).then(()=>toast('Link copied!'))}
+function openChat(user){curChat=user;document.getElementById('chatM').classList.add('on');document.getElementById('cName').innerText=user;document.getElementById('cImg').src=posts.find(p=>p.user===user)?.av||'https://i.pravatar.cc/150?u='+user;let key=me.email+'_'+user;let h=chats[key]||[];document.getElementById('cBody').innerHTML=(h.length?h:[{me:false,text:`Hi ${me.name}!`}]).map(m=>`<div style="max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;${m.me?'align-self:flex-end;background:linear-gradient(135deg,#ff3b6e,#ffb02e)':'align-self:flex-start;background:#101017;border:1px solid #1c1c26'}">${m.text}</div>`).join('');}
 function closeChat(){document.getElementById('chatM').classList.remove('on')}
-function sendMsg(){let inp=document.getElementById('cIn');let t=inp.value.trim();if(!t||!curChat)return;let key=me.email+'_'+curChat;if(!chats[key])chats[key]=[];chats[key].push({me:true,text:t});save();document.getElementById('cBody').insertAdjacentHTML('beforeend',`<div style="max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;align-self:flex-end;background:linear-gradient(135deg,#ff3b6e,#ffb02e)">${t}</div>`);inp.value='';document.getElementById('cBody').scrollTop=9999;setTimeout(()=>{if(!chats[key])chats[key]=[];let reps=['Nice! 👍','I dey for Ladipo, come shop! 😊','I fit deliver today for Lagos 🚚','Price negotiable, chat me!','When you wan meet? ❤️','I like you too 😘'];let rep=reps[Math.floor(Math.random()*reps.length)];chats[key].push({me:false,text:rep});save();document.getElementById('cBody').insertAdjacentHTML('beforeend',`<div style="max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;align-self:flex-start;background:#101017;border:1px solid #1c1c26">${rep}</div>`);document.getElementById('cBody').scrollTop=9999},900)}
-function buyFrom(id){let post=posts.find(p=>p.id===id);let wa='2348012345678';let txt=encodeURIComponent(`Hi ${post.user}! I want to buy ${post.title} ${post.price} on WatchWell (Beats TikTok!)`);window.open(`https://wa.me/${wa}?text=${txt}`,'_blank');toast('Opening WhatsApp - WatchWell wins! 🛒')}
-function buyNow(){buyFrom(document.getElementById('cBuy').dataset.id)}
-function openInbox(){if(!me){openAuth();return}let main=document.getElementById('feed');let keys=Object.keys(chats);if(!keys.length){main.innerHTML=`<div style="text-align:center;padding:60px 20px"><div style="font-size:50px">💬</div><h3>No chats yet</h3><p style="color:#777;font-size:13px">Chat shops to buy, people to meet - TikTok no get this!</p></div>`;return}main.innerHTML=`<div style="padding:12px"><h3>Inbox - Beats TikTok (TikTok no get chat + buy!)</h3></div>`+keys.map(k=>{let other=k.replace(me.email+'_','');let last=chats[k][chats[k].length-1]?.text||'...';return `<div class="card" style="cursor:pointer" onclick="openChat('${other}','')"><div class="ch"><img class="av" src="https://i.pravatar.cc/150?u=${other}"><div style="flex:1"><b>${other}</b><div style="font-size:12px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px">${last}</div></div><div style="font-size:10px;color:#555">now</div></div></div>`}).join('')}
-function openMe(){if(!me){openAuth();return}document.getElementById('feed').innerHTML=`<div style="padding:16px"><div style="background:#101017;border:1px solid #1c1c26;border-radius:16px;padding:20px;text-align:center"><img src="https://i.pravatar.cc/150?u=${me.email}" style="width:80px;height:80px;border-radius:50%"><h3 style="margin-top:10px">${me.name}</h3><p style="color:#777;font-size:12px">${me.email}</p><div style="display:flex;gap:8px;margin-top:14px"><div style="flex:1;padding:10px;background:#07070a;border-radius:10px"><b>${posts.filter(p=>p.user===me.name).length}</b><div style="font-size:10px;color:#777">Posts</div></div><div style="flex:1;padding:10px;background:#07070a;border-radius:10px"><b>${[...likes].length}</b><div style="font-size:10px;color:#777">Likes</div></div><div style="flex:1;padding:10px;background:#07070a;border-radius:10px"><b>${Object.keys(chats).length}</b><div style="font-size:10px;color:#777">Chats</div></div></div><button onclick="if(confirm('Logout?')){me=null;localStorage.removeItem('ww_me');render();toast('Logged out')}" style="width:100%;margin-top:12px;padding:10px;background:#15151f;border:1px solid #222;border-radius:10px;color:#fff;cursor:pointer">Logout</button></div>
-<div style="margin-top:12px;background:#101017;border:1px solid #1c1c26;border-radius:16px;padding:14px"><h4>Why WatchWell Beats TikTok 🏆</h4><div style="font-size:13px;color:#aaa;line-height:1.5;margin-top:8px">✅ TikTok = Watch only<br>✅ WatchWell = Watch + Shop + Meet + Chat<br>✅ TikTok = Algorithm hides you<br>✅ WatchWell = 100% reach<br>✅ TikTok = No sales<br>✅ WatchWell = Buy via WhatsApp in 1 tap<br>✅ TikTok = Foreign<br>✅ WatchWell = Lagos - Ladipo, Ikeja, Lekki</div></div></div>`}
-render();
-document.getElementById('authM').addEventListener('click',e=>{if(e.target.id==='authM')closeAuth()});
-document.getElementById('upM').addEventListener('click',e=>{if(e.target.id==='upM')closeUp()});
+function sendMsg(){let inp=document.getElementById('cIn');let t=inp.value.trim();if(!t||!curChat)return;let key=me.email+'_'+curChat;if(!chats[key])chats[key]=[];chats[key].push({me:true,text:t});save();document.getElementById('cBody').insertAdjacentHTML('beforeend',`<div style="max-width:75%;padding:10px 14px;border-radius:18px;font-size:14px;align-self:flex-end;background:linear-gradient(135deg,#ff3b6e,#ffb02e)">${t}</div>`);inp.value='';}
+function openInbox(){let main=document.getElementById('feed');let keys=Object.keys(chats);if(!keys.length){main.innerHTML=`<div style="text-align:center;padding:60px 20px"><div style="font-size:50px">💬</div><h3>No messages</h3></div>`;return}main.innerHTML=keys.map(k=>{let other=k.replace(me.email+'_','');return `<div class="card" style="cursor:pointer" onclick="openChat('${other}')"><div class="ch"><img class="av" src="https://i.pravatar.cc/150?u=${other}"><div style="flex:1"><b>${other}</b></div></div></div>`}).join('')}
+function openMe(){document.getElementById('feed').innerHTML=`<div style="padding:16px"><div style="background:#101017;border:1px solid #1c1c26;border-radius:16px;padding:20px;text-align:center"><img src="https://i.pravatar.cc/150?u=${me.email}" style="width:80px;height:80px;border-radius:50%"><h3 style="margin-top:10px">${me.name}</h3><p style="color:#777;font-size:12px">${me.email}</p><button onclick="if(confirm('Delete ALL posts?')){posts=[];save();render();toast('Deleted! Fresh start')}" style="width:100%;margin-top:12px;padding:10px;background:#ff3b6e22;border:1px solid #ff3b6e44;color:#ff3b6e;border-radius:10px;cursor:pointer">🗑️ Delete All Posts</button><button onclick="logout()" style="width:100%;margin-top:8px;padding:10px;background:#15151f;border:1px solid #222;border-radius:10px;color:#fff;cursor:pointer">Logout</button></div></div>`}
+init();
 </script>
 </body>
 </html>
