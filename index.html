@@ -2,149 +2,179 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WATCHWELL - Swipe, Watch, Enjoy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WATCHWELL</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-body{font-family:'Inter',sans-serif;background:#000;color:#fff;overflow:hidden;margin:0}
-.video-container{height:100vh;scroll-snap-type:y mandatory;overflow-y:scroll;scrollbar-width:none}
-.video-container::-webkit-scrollbar{display:none}
-.video-card{height:100vh;scroll-snap-align:start;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.video-card img{width:100%;height:100%;object-fit:cover}
-.action-btn{transition:all 0.2s}
-.action-btn:active{transform:scale(0.85)}
-.like-active{color:#fe2c55 !important}
-.followed{background:#fff !important;color:#000 !important}
-.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.9);color:#000;padding:12px 24px;border-radius:30px;font-weight:600;z-index:9999;animation:fade 2s forwards}
-@keyframes fade{0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
-.tab-active{color:#fff !important;border-bottom:2px solid #fff;padding-bottom:4px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;display:none}
-.modal.show{display:flex}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+*{font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#000;color:#fff;overflow:hidden;overscroll-behavior:none}
+#feed{height:100vh;height:100dvh;width:100vw;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+#feed::-webkit-scrollbar{display:none}
+.slide{height:100vh;height:100dvh;width:100vw;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#000;overflow:hidden}
+.slide img{width:100%;height:100%;object-fit:cover}
+.top-bar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;justify-content:center;align-items:center;gap:18px;padding:14px 12px 10px;background:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);font-size:15px;font-weight:600;color:rgba(255,255,255,0.7)}
+.top-bar .active{color:#fff;font-weight:700;border-bottom:2px solid #fff;padding-bottom:3px}
+.right-bar{position:absolute;right:8px;bottom:100px;z-index:20;display:flex;flex-direction:column;align-items:center;gap:18px}
+.avatar-wrap{position:relative;width:48px;height:48px}
+.avatar-wrap img{width:48px;height:48px;border-radius:50%;border:2px solid #fff;object-fit:cover}
+.plus-btn{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:none;color:#fff}
+.action{display:flex;flex-direction:column;align-items:center;gap:3px}
+.action i{font-size:28px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))}
+.action .count{font-size:12px;font-weight:600}
+.share-text{font-size:12px;font-weight:600;margin-top:2px}
+.whatsapp{width:42px;height:42px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.bottom-info{position:absolute;left:12px;right:78px;bottom:72px;z-index:20;text-shadow:0 1px 2px rgba(0,0,0,0.6)}
+.username{font-weight:700;font-size:15px}
+.caption{font-size:14px;margin-top:4px;line-height:1.25}
+.see-more{font-weight:700;color:#fff}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;z-index:30;background:#000;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-around;align-items:center;padding:8px 0}
+.nav-item{display:flex;flex-direction:column;align-items:center;color:rgba(255,255,255,0.7);font-size:10px;gap:3px}
+.nav-item.active{color:#fff}
+.nav-item i{font-size:20px}
+.plus-center{width:44px;height:28px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;position:relative;box-shadow:-3px 0 #25f4ee, 3px 0 #fe2c55}
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);color:#000;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:600;z-index:999;animation:fade 1.8s forwards}
+@keyframes fade{0%{opacity:0}15%{opacity:1}75%{opacity:1}100%{opacity:0}}
+.liked{color:#fe2c55 !important}
+#meSheet{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+#meSheet.show{display:flex}
+.disc{width:40px;height:40px;border-radius:50%;background:conic-gradient(#333,#111);display:flex;align-items:center;justify-content:center;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
-
-<div class="fixed top-0 w-full z-30 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/70 to-transparent">
-  <h1 class="text-xl font-black"><span>WATCH</span><span style="color:#fe2c55">WELL</span></h1>
-  <div class="flex gap-4 text-[14px] font-semibold text-white/60">
-    <button class="tab-btn" data-tab="drama">Drama</button>
-    <button class="tab-btn" data-tab="following">Following</button>
-    <button class="tab-btn" data-tab="friends">Friends</button>
-    <button class="tab-btn tab-active" data-tab="foryou">For You</button>
-  </div>
-  <button id="searchBtn"><i class="fas fa-search text-lg"></i></button>
+<div id="feed">
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800&q=80">
+<div class="top-bar"><span>Drama</span><span>Following</span><span>Friends</span><span class="active">For You</span><i class="fas fa-search" style="position:absolute;right:16px;top:16px;font-size:20px;color:#fff"></i></div>
+<div class="right-bar">
+<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=15"><button class="plus-btn followBtn"><i class="fas fa-plus" style="font-size:10px"></i></button></div>
+<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">0</span></button>
+<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">0</span></button>
+<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">0</span></button>
+<button class="action shareBtn"><i class="fas fa-share" style="transform:rotate(-20deg)"></i><span class="share-text">Share</span></button>
+<button class="whatsapp waBtn"><i class="fab fa-whatsapp" style="font-size:22px;color:#fff"></i></button>
+<div class="disc"><img src="https://i.pravatar.cc/100?img=20" style="width:22px;height:22px;border-radius:50%"></div>
 </div>
-
-<div class="video-container" id="feed">
-  <div class="video-card">
-    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600">
-    <div class="absolute right-3 bottom-28 flex flex-col items-center gap-5 z-10">
-      <div class="relative">
-        <img src="https://i.pravatar.cc/100?img=5" class="w-12 h-12 rounded-full border-2 border-white">
-        <button class="follow-btn absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#fe2c55] rounded-full flex items-center justify-center text-xs"><i class="fas fa-plus"></i></button>
-      </div>
-      <button class="like-btn action-btn flex flex-col items-center"><i class="fas fa-heart text-[28px]"></i><span class="text-xs font-bold mt-1 like-count">290.7K</span></button>
-      <button class="comment-btn action-btn flex flex-col items-center"><i class="fas fa-comment-dots text-[26px]"></i><span class="text-xs font-bold mt-1">4.8K</span></button>
-      <button class="bookmark-btn action-btn flex flex-col items-center"><i class="fas fa-bookmark text-[24px]"></i><span class="text-xs font-bold mt-1">34.8K</span></button>
-      <button class="share-btn action-btn flex flex-col items-center"><i class="fas fa-share text-[22px]"></i><span class="text-xs font-bold mt-1">Share</span></button>
-      <button class="whatsapp-btn action-btn w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center"><i class="fab fa-whatsapp text-xl"></i></button>
-      <button class="disc-btn action-btn"><img src="https://i.pravatar.cc/100?img=8" class="w-10 h-10 rounded-full"></button>
-    </div>
-    <div class="absolute left-4 right-20 bottom-20 z-10">
-      <p class="font-bold text-[16px] username-btn">@moviesclip_recap</p>
-      <p class="text-[14px] mt-1">Cornered by the fierce N... <span class="font-bold see-more">See more</span></p>
-      <p class="text-[13px] mt-2"><i class="fas fa-music text-xs"></i> Original sound - SWEET KIDS</p>
-    </div>
-  </div>
-  <div class="video-card">
-    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600">
-    <div class="absolute right-3 bottom-28 flex flex-col items-center gap-5 z-10">
-      <div class="relative">
-        <img src="https://i.pravatar.cc/100?img=12" class="w-12 h-12 rounded-full border-2 border-white">
-        <button class="follow-btn absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#fe2c55] rounded-full flex items-center justify-center text-xs"><i class="fas fa-plus"></i></button>
-      </div>
-      <button class="like-btn action-btn flex flex-col items-center"><i class="fas fa-heart text-[28px]"></i><span class="text-xs font-bold mt-1">152K</span></button>
-      <button class="comment-btn action-btn flex flex-col items-center"><i class="fas fa-comment-dots text-[26px]"></i><span class="text-xs font-bold mt-1">2.1K</span></button>
-      <button class="bookmark-btn action-btn flex flex-col items-center"><i class="fas fa-bookmark text-[24px]"></i><span class="text-xs font-bold mt-1">11K</span></button>
-      <button class="share-btn action-btn flex flex-col items-center"><i class="fas fa-share text-[22px]"></i><span class="text-xs font-bold mt-1">Share</span></button>
-      <button class="whatsapp-btn action-btn w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center"><i class="fab fa-whatsapp text-xl"></i></button>
-    </div>
-    <div class="absolute left-4 right-20 bottom-20 z-10">
-      <p class="font-bold">@action_flix</p>
-      <p class="text-[14px] mt-1">When he found out the truth 😱 <span class="font-bold see-more">See more</span></p>
-    </div>
-  </div>
+<div class="bottom-info"><div class="username">moviesclip_recap</div><div class="caption">Cornered by the fierce N... <span class="see-more">See more</span></div></div>
+<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-border-all"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="far fa-message"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="far fa-user"></i><span>Me</span></div></div>
 </div>
-
-<div class="fixed bottom-0 w-full bg-black border-t border-white/10 flex justify-around items-center py-2 z-30">
-  <button class="nav-btn flex flex-col items-center text-white" data-nav="home"><i class="fas fa-house text-xl"></i><span class="text-[10px] mt-1 font-bold">Home</span></button>
-  <button class="nav-btn flex flex-col items-center text-white/60" data-nav="explore"><i class="fas fa-compass text-xl"></i><span class="text-[10px] mt-1">Explore</span></button>
-  <button class="nav-btn" data-nav="create"><div class="w-11 h-8 bg-white rounded-lg flex items-center justify-center"><i class="fas fa-plus text-black"></i></div></button>
-  <button class="nav-btn flex flex-col items-center text-white/60" data-nav="inbox"><i class="fas fa-inbox text-xl"></i><span class="text-[10px] mt-1">Inbox</span></button>
-  <button class="nav-btn flex flex-col items-center text-white/60" data-nav="me"><i class="fas fa-user text-xl"></i><span class="text-[10px] mt-1">Me</span></button>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80">
+<div class="top-bar"><span style="color:#fff;font-weight:900">WATCH<span style="color:#fe2c55">WELL</span></span><span>Drama</span><span>Following</span><span class="active">Friends</span></div>
+<div class="right-bar">
+<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=32"><button class="plus-btn followBtn"><i class="fas fa-plus" style="font-size:10px"></i></button></div>
+<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">152K</span></button>
+<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">2.1K</span></button>
+<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">11K</span></button>
+<button class="action shareBtn"><i class="fas fa-share" style="transform:rotate(-20deg)"></i><span class="share-text">Share</span></button>
+<button class="whatsapp waBtn"><i class="fab fa-whatsapp" style="font-size:22px"></i></button>
 </div>
-
-<div id="searchModal" class="modal items-start justify-center pt-20"><div class="bg-[#121212] w-[90%] max-w-md rounded-2xl p-4"><div class="flex items-center gap-3 bg-white/10 rounded-full px-4 py-3"><i class="fas fa-search text-white/50"></i><input id="searchInput" placeholder="Search movies..." class="bg-transparent outline-none w-full text-sm"></div><button class="close-modal mt-4 w-full bg-white text-black py-3 rounded-full font-bold">Close</button></div></div>
-
-<div id="commentModal" class="modal items-end"><div class="bg-[#121212] w-full rounded-t-3xl max-h-[70vh] p-4 flex flex-col"><div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-4"></div><h3 class="font-bold text-center">Comments</h3><div class="mt-4 space-y-4"><div class="flex gap-3"><img src="https://i.pravatar.cc/100?img=1" class="w-8 h-8 rounded-full"><div><p class="text-sm"><b>@jane</b> This movie is fire 🔥</p></div></div></div><div class="mt-4 flex gap-2"><input placeholder="Add comment..." class="flex-1 bg-white/10 rounded-full px-4 py-3 text-sm outline-none"><button class="bg-[#fe2c55] px-6 rounded-full font-bold">Post</button></div><button class="close-modal mt-3 text-white/60 text-sm">Close</button></div></div>
-
-<div id="shareModal" class="modal items-end"><div class="bg-[#121212] w-full rounded-t-3xl p-6"><h3 class="font-bold text-center mb-6">Share to</h3><div class="grid grid-cols-4 gap-6"><button class="share-option flex flex-col items-center gap-2" data-type="whatsapp"><div class="w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center"><i class="fab fa-whatsapp"></i></div><span class="text-xs">WhatsApp</span></button><button class="share-option flex flex-col items-center gap-2" data-type="copy"><div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"><i class="fas fa-link"></i></div><span class="text-xs">Copy</span></button><button class="share-option flex flex-col items-center gap-2" data-type="facebook"><div class="w-12 h-12 bg-[#1877F2] rounded-full flex items-center justify-center"><i class="fab fa-facebook"></i></div><span class="text-xs">Facebook</span></button><button class="share-option flex flex-col items-center gap-2" data-type="more"><div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center"><i class="fas fa-ellipsis-h"></i></div><span class="text-xs">More</span></button></div><button class="close-modal mt-6 w-full bg-white/10 py-3 rounded-full">Cancel</button></div></div>
-
-<div id="meModal" class="modal items-center justify-center p-4"><div class="bg-[#121212] w-full max-w-sm rounded-3xl p-6"><h2 class="text-2xl font-black text-center">WATCHWELL</h2><p class="text-center text-white/60 text-sm mt-2">Login to continue</p><div id="authForm" class="mt-6 space-y-3"><input id="email" type="email" placeholder="Email" class="w-full bg-white/10 rounded-full px-5 py-4 text-sm outline-none"><input id="password" type="password" placeholder="Password" class="w-full bg-white/10 rounded-full px-5 py-4 text-sm outline-none"><button id="signUpBtn" class="w-full bg-[#fe2c55] py-4 rounded-full font-bold">Sign Up</button><button id="loginBtn" class="w-full bg-white text-black py-4 rounded-full font-bold">Log In</button><p id="authMsg" class="text-center text-xs text-[#fe2c55]"></p></div><div id="userInfo" class="hidden text-center mt-6"><img src="https://i.pravatar.cc/100?img=10" class="w-20 h-20 rounded-full mx-auto"><p id="userEmail" class="mt-3 font-bold"></p><button id="logoutBtn" class="mt-4 w-full bg-white/10 py-3 rounded-full">Log Out</button></div><button class="close-modal mt-6 w-full text-white/50 text-sm">Close</button></div></div>
-
-<div id="explorePage" class="modal items-start pt-16"><div class="bg-black w-full min-h-screen p-4"><h2 class="text-xl font-bold">Explore</h2><div class="grid grid-cols-2 gap-3 mt-4"><div class="bg-white/10 rounded-2xl h-40 flex items-center justify-center">Drama 🔥</div><div class="bg-white/10 rounded-2xl h-40 flex items-center justify-center">Action 💥</div><div class="bg-white/10 rounded-2xl h-40 flex items-center justify-center">Comedy 😂</div><div class="bg-white/10 rounded-2xl h-40 flex items-center justify-center">Nollywood 🇳🇬</div></div><button class="close-modal mt-6 w-full bg-white text-black py-3 rounded-full font-bold">Back</button></div></div>
-
-<div id="inboxPage" class="modal items-start pt-16"><div class="bg-black w-full min-h-screen p-4"><h2 class="text-xl font-bold">Inbox</h2><p class="text-white/60 mt-10 text-center">No notifications yet</p><button class="close-modal mt-10 w-full bg-white text-black py-3 rounded-full font-bold">Back</button></div></div>
-
+<div class="bottom-info"><div class="username">@action_flix</div><div class="caption">When he found out the truth 😱 <span class="see-more">See more</span></div></div>
+<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-compass"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="fas fa-inbox"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="fas fa-user"></i><span>Me</span></div></div>
+</div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800">
+<div class="top-bar"><span>Drama</span><span>Following</span><span>Friends</span><span class="active">For You</span></div>
+<div class="right-bar">
+<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=8"><button class="plus-btn followBtn"><i class="fas fa-plus"></i></button></div>
+<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">89K</span></button>
+<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">1.3K</span></button>
+<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">5K</span></button>
+<button class="action shareBtn"><i class="fas fa-share"></i><span class="share-text">Share</span></button>
+<button class="whatsapp waBtn"><i class="fab fa-whatsapp"></i></button>
+</div>
+<div class="bottom-info"><div class="username">@dramaqueen</div><div class="caption">He didn't know she was... <span class="see-more">See more</span></div></div>
+<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-border-all"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="far fa-message"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="far fa-user"></i><span>Me</span></div></div>
+</div>
+</div>
+<div id="meSheet">
+<div style="background:#121212;border-radius:20px;padding:24px;width:100%;max-width:340px">
+<h2 style="text-align:center;font-weight:900;font-size:22px">WATCHWELL</h2>
+<p style="text-align:center;color:rgba(255,255,255,0.6);font-size:13px;margin-top:4px">Login to like & comment</p>
+<div id="authBox" style="margin-top:20px;display:flex;flex-direction:column;gap:12px">
+<input id="email" type="email" placeholder="Email" style="background:rgba(255,255,255,0.1);border-radius:30px;padding:14px 18px;outline:none;border:none;font-size:14px;color:#fff">
+<input id="pass" type="password" placeholder="Password (6+ chars)" style="background:rgba(255,255,255,0.1);border-radius:30px;padding:14px 18px;outline:none;border:none;font-size:14px;color:#fff">
+<button id="signUpBtn" style="background:#fe2c55;padding:14px;border-radius:30px;font-weight:700;color:#fff;border:none">Sign Up - Anyone Can Register</button>
+<button id="loginBtn" style="background:#fff;color:#000;padding:14px;border-radius:30px;font-weight:700;border:none">Log In</button>
+<p id="msg" style="text-align:center;font-size:12px;color:#fe2c55;min-height:16px"></p>
+</div>
+<div id="userBox" style="display:none;text-align:center;margin-top:20px">
+<p id="userEmail" style="font-weight:700"></p>
+<button id="logoutBtn" style="margin-top:12px;background:rgba(255,255,255,0.1);width:100%;padding:12px;border-radius:30px;border:none;color:#fff">Log Out</button>
+</div>
+<button id="closeMe" style="margin-top:16px;width:100%;color:rgba(255,255,255,0.5);font-size:13px;background:none;border:none">Close</button>
+</div>
+</div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyDUMMY_REPLACE_WITH_YOURS",
-  authDomain: "watchwell-xxxxx.firebaseapp.com",
-  projectId: "watchwell-xxxxx",
-  appId: "1:xxxxx:web:xxxxx"
+  apiKey: "REPLACE_WITH_YOUR_API_KEY",
+  authDomain: "REPLACE_WITH_YOUR_AUTH_DOMAIN",
+  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
+  appId: "REPLACE_WITH_YOUR_APP_ID"
 };
-
 let auth;
 try{
   const app=initializeApp(firebaseConfig);
   auth=getAuth(app);
-  onAuthStateChanged(auth,(user)=>{
-    if(user){
-      document.getElementById('authForm').classList.add('hidden');
-      document.getElementById('userInfo').classList.remove('hidden');
-      document.getElementById('userEmail').innerText=user.email;
-    } else {
-      document.getElementById('authForm').classList.remove('hidden');
-      document.getElementById('userInfo').classList.add('hidden');
+  onAuthStateChanged(auth,(u)=>{
+    if(u){
+      document.getElementById('authBox').style.display='none';
+      document.getElementById('userBox').style.display='block';
+      document.getElementById('userEmail').innerText=u.email;
+    }else{
+      document.getElementById('authBox').style.display='flex';
+      document.getElementById('userBox').style.display='none';
     }
   });
-}catch(e){}
-
-function toast(msg){const t=document.createElement('div');t.className='toast';t.innerText=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2000);}
-
-document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('tab-active'));b.classList.add('tab-active');toast(b.innerText);}));
-document.getElementById('searchBtn').addEventListener('click',()=>document.getElementById('searchModal').classList.add('show'));
-document.querySelectorAll('.comment-btn').forEach(b=>b.addEventListener('click',()=>document.getElementById('commentModal').classList.add('show')));
-document.querySelectorAll('.share-btn').forEach(b=>b.addEventListener('click',()=>document.getElementById('shareModal').classList.add('show')));
-document.querySelectorAll('.whatsapp-btn').forEach(b=>b.addEventListener('click',()=>{window.open('https://wa.me/?text='+encodeURIComponent(location.href),'_blank')}));
-document.querySelectorAll('.like-btn').forEach(btn=>{btn.addEventListener('click',()=>{const i=btn.querySelector('i');i.classList.toggle('like-active');i.classList.toggle('text-[#fe2c55]');toast(i.classList.contains('like-active')?'Liked ❤️':'Unliked')})});
-document.querySelectorAll('.follow-btn').forEach(btn=>{btn.addEventListener('click',(e)=>{e.stopPropagation();btn.classList.toggle('followed');btn.innerHTML=btn.classList.contains('followed')?'<i class="fas fa-check"></i>':'<i class="fas fa-plus"></i>';toast(btn.classList.contains('followed')?'Following!':'Unfollowed')})});
-document.querySelectorAll('.bookmark-btn').forEach(btn=>{btn.addEventListener('click',()=>{const i=btn.querySelector('i');i.classList.toggle('text-[#fe2c55]');toast(i.classList.contains('text-[#fe2c55]')?'Saved!':'Unsaved')})});
-document.querySelectorAll('.see-more').forEach(s=>s.addEventListener('click',()=>toast('Full movie recap coming soon! 🎬')));
-document.querySelectorAll('.username-btn').forEach(u=>u.addEventListener('click',()=>toast('Profile: '+u.innerText)));
-document.querySelectorAll('.share-option').forEach(o=>o.addEventListener('click',()=>{if(o.dataset.type==='copy'){navigator.clipboard.writeText(location.href);toast('Link copied!')}else toast('Shared to '+o.dataset.type);document.getElementById('shareModal').classList.remove('show')}));
-document.querySelectorAll('.close-modal').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'))}));
-document.querySelectorAll('.nav-btn').forEach(btn=>{btn.addEventListener('click',()=>{const nav=btn.dataset.nav;document.querySelectorAll('.nav-btn').forEach(b=>b.classList.add('text-white/60'));btn.classList.remove('text-white/60');if(nav==='home'){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));toast('Home')}if(nav==='explore')document.getElementById('explorePage').classList.add('show');if(nav==='inbox')document.getElementById('inboxPage').classList.add('show');if(nav==='me')document.getElementById('meModal').classList.add('show');if(nav==='create')toast('Upload coming soon! 🎬')})});
-
-document.getElementById('signUpBtn')?.addEventListener('click',async()=>{const e=document.getElementById('email').value;const p=document.getElementById('password').value;const m=document.getElementById('authMsg');if(!auth||firebaseConfig.apiKey.includes('DUMMY')){m.innerText='Add your real Firebase config! Go to Firebase Console > Project Settings > copy config';return}try{await createUserWithEmailAndPassword(auth,e,p);m.innerText='Created!';toast('Account created!')}catch(err){m.innerText=err.message}});
-document.getElementById('loginBtn')?.addEventListener('click',async()=>{const e=document.getElementById('email').value;const p=document.getElementById('password').value;const m=document.getElementById('authMsg');if(!auth){m.innerText='Add Firebase config';return}try{await signInWithEmailAndPassword(auth,e,p);toast('Logged in!')}catch(err){m.innerText=err.message}});
-document.getElementById('logoutBtn')?.addEventListener('click',async()=>{if(auth)await signOut(auth);toast('Logged out')});
-document.getElementById('searchInput')?.addEventListener('keydown',(e)=>{if(e.key==='Enter'){toast('Searching: '+e.target.value);document.getElementById('searchModal').classList.remove('show')}});
+}catch(e){ console.log('Add your real config') }
+function toast(m){const d=document.createElement('div');d.className='toast';d.innerText=m;document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+document.querySelectorAll('.likeBtn').forEach(b=>b.addEventListener('click',()=>{
+  const icon=b.querySelector('i'); const count=b.querySelector('.likeCount');
+  icon.classList.toggle('liked');
+  let val=count.innerText;
+  if(val.includes('K')){toast(icon.classList.contains('liked')?'Liked ❤️':'Unliked')}
+  else{
+    let n=parseInt(val)||0;
+    if(icon.classList.contains('liked')){n++;count.innerText=n;toast('Liked ❤️')}else{n=Math.max(0,n-1);count.innerText=n;toast('Unliked')}
+  }
+}));
+document.querySelectorAll('.followBtn').forEach(b=>b.addEventListener('click',()=>{b.style.background=b.style.background==='rgb(255, 255, 255)'?'#fe2c55':'#fff';b.style.color=b.style.background==='#fff'?'#000':'#fff';b.innerHTML=b.style.background==='#fff'?'<i class="fas fa-check" style="font-size:10px"></i>':'<i class="fas fa-plus" style="font-size:10px"></i>';toast(b.innerHTML.includes('check')?'Following ✅':'Unfollowed')}));
+document.querySelectorAll('.commentBtn').forEach(b=>b.addEventListener('click',()=>toast('Comments: Coming soon - Connect Firebase Firestore! 💬')));
+document.querySelectorAll('.saveBtn').forEach(b=>b.addEventListener('click',()=>{b.querySelector('i').classList.toggle('liked');toast(b.querySelector('i').classList.contains('liked')?'Saved 🔖':'Unsaved')}));
+document.querySelectorAll('.shareBtn').forEach(b=>b.addEventListener('click',()=>{if(navigator.share){navigator.share({title:'WATCHWELL',url:location.href})}else{navigator.clipboard.writeText(location.href);toast('Link copied! 📋')}}));
+document.querySelectorAll('.waBtn').forEach(b=>b.addEventListener('click',()=>window.open('https://wa.me/?text='+encodeURIComponent('Watch this on WATCHWELL 🔥 '+location.href),'_blank')));
+document.querySelectorAll('.see-more').forEach(s=>s.addEventListener('click',()=>toast('Full movie: She was cornered by the fierce... 🎬')));
+document.querySelectorAll('.top-bar span').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.top-bar .active').forEach(a=>a.classList.remove('active'));t.classList.add('active');toast(t.innerText)}));
+document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>{
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  n.classList.add('active');
+  const go=n.dataset.go;
+  if(go==='me')document.getElementById('meSheet').classList.add('show');
+  else if(go==='explore')toast('Explore: Drama, Action, Comedy, Nollywood 🎬');
+  else if(go==='inbox')toast('Inbox: No new messages');
+  else toast('Home');
+}));
+document.getElementById('closeMe').addEventListener('click',()=>document.getElementById('meSheet').classList.remove('show'));
+document.getElementById('signUpBtn').addEventListener('click',async()=>{
+  const e=document.getElementById('email').value.trim();
+  const p=document.getElementById('pass').value;
+  const m=document.getElementById('msg');
+  if(!e||!p){m.innerText='Enter email & password';return}
+  if(p.length<6){m.innerText='Password must be 6+ chars';return}
+  if(firebaseConfig.apiKey.includes('REPLACE')){m.innerText='⚠️ Replace Firebase config with YOUR real config!';toast('Add real config first');return}
+  try{await createUserWithEmailAndPassword(auth,e,p);m.innerText='';toast('Registered! 🎉 Anyone can register now!')}catch(err){m.innerText=err.message}
+});
+document.getElementById('loginBtn').addEventListener('click',async()=>{
+  const e=document.getElementById('email').value.trim();
+  const p=document.getElementById('pass').value;
+  const m=document.getElementById('msg');
+  try{await signInWithEmailAndPassword(auth,e,p);toast('Logged in ✅')}catch(err){m.innerText=err.message}
+});
+document.getElementById('logoutBtn').addEventListener('click',async()=>{await signOut(auth);toast('Logged out')});
 </script>
 </body>
 </html>
