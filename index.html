@@ -1,44 +1,145 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>WatchWell - Original</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,-apple-system,sans-serif}body{background:#0a0a0f;color:#fff;height:100vh;overflow:hidden}.feed{height:100vh;width:100vw;overflow-y:scroll;scroll-snap-type:y mandatory}.feed::-webkit-scrollbar{display:none}.item{height:100vh;width:100vw;scroll-snap-align:start;position:relative;background:radial-gradient(ellipse at bottom,#1a1030,#000);display:flex;align-items:center;justify-content:center;overflow:hidden}.item video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.95)}.top-bar{position:absolute;top:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,0.8),transparent)}.logo{font-weight:900;font-size:22px;background:linear-gradient(90deg,#ff7a18,#ff3b6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.top-tabs{display:flex;gap:18px;font-size:14px;font-weight:700;color:#777}.top-tabs span.active{color:#fff;background:rgba(255,122,24,0.15);padding:6px 14px;border-radius:20px;border:1px solid rgba(255,122,24,0.3)}.left-profile{position:absolute;left:12px;bottom:140px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:8px}.avatar{width:52px;height:52px;border-radius:16px;border:2px solid #ff7a18;background:#222;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;box-shadow:0 4px 20px rgba(255,122,24,0.4)}.avatar img{width:100%;height:100%;object-fit:cover}.follow-btn{background:linear-gradient(135deg,#ff7a18,#ff3b6e);border:none;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:-12px;border:2px solid #000}.bottom-actions{position:absolute;left:12px;right:12px;bottom:86px;z-index:10;display:flex;justify-content:space-between;align-items:end}.info{flex:1;margin-right:12px}.username{font-weight:800;font-size:16px;display:flex;align-items:center;gap:6px}.verified{width:16px;height:16px;background:#ff7a18;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px}.desc{font-size:14px;margin-top:4px;line-height:1.3;opacity:0.9}.music{margin-top:8px;display:flex;align-items:center;gap:8px;font-size:12px;background:rgba(255,255,255,0.1);padding:6px 12px;border-radius:20px;width:fit-content;backdrop-filter:blur(10px)}.actions-row{display:flex;gap:12px;align-items:center}.action-pill{background:rgba(255,255,255,0.12);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);padding:10px 14px;border-radius:24px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;transition:0.2s}.action-pill:active{transform:scale(0.92)}.action-pill.liked{background:rgba(255,59,110,0.2);border-color:#ff3b6e;color:#ff3b6e}.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:rgba(10,10,15,0.9);backdrop-filter:blur(30px);display:flex;justify-content:space-around;align-items:center;z-index:20;border-top:1px solid rgba(255,255,255,0.08)}.nav{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:#666;font-size:10px;font-weight:700;cursor:pointer}.nav.active{color:#ff7a18}.nav i{font-size:22px}.nav-center{width:56px;height:56px;background:linear-gradient(135deg,#ff7a18,#ff3b6e);border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(255,122,24,0.4);margin-top:-12px}.nav-center i{color:#fff;font-size:24px}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:100;align-items:center;justify-content:center;padding:20px}.modal.active{display:flex}.box{background:#15151f;width:100%;max-width:360px;border-radius:20px;padding:20px;border:1px solid rgba(255,255,255,0.1)}.box input,.box textarea{width:100%;background:#0f0f18;border:1px solid #222;border-radius:12px;padding:12px;color:#fff;margin-bottom:10px}.settings-page{display:none;position:fixed;inset:0;background:#0a0a0f;z-index:50;overflow-y:auto;padding-bottom:90px}.settings-page.active{display:block}</style></head><body>
-<div class="feed" id="feed"></div>
-<div class="bottom-nav">
-<div class="nav active" id="nav-home" onclick="showHome()"><i class="fa-solid fa-fire"></i><span>WatchWell</span></div>
-<div class="nav" onclick="openExplore()"><i class="fa-solid fa-compass"></i><span>Trending</span></div>
-<div class="nav" onclick="openPost()"><div class="nav-center"><i class="fa-solid fa-plus"></i></div></div>
-<div class="nav" onclick="openInbox()"><i class="fa-solid fa-bell"></i><span>Alerts</span></div>
-<div class="nav" id="nav-me" onclick="showMe()"><i class="fa-solid fa-user"></i><span>You</span></div>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WatchWell - TikTok Style</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+body{background:#000;color:#fff;overflow:hidden;height:100vh}
+#auth{position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-box{background:#121212;border-radius:16px;padding:28px;width:100%;max-width:380px;border:1px solid #222}
+.auth-box h1{font-size:28px;text-align:center;margin-bottom:6px} .auth-box h1 span{color:#fe2c55}
+.auth-box p{text-align:center;color:#888;margin-bottom:24px;font-size:14px}
+.auth-box input{width:100%;background:#222;border:1px solid #333;border-radius:8px;padding:14px;color:#fff;margin-bottom:12px;font-size:16px;outline:none}
+.auth-box input:focus{border-color:#fe2c55}
+.auth-box button{width:100%;background:#fe2c55;color:#fff;border:none;border-radius:8px;padding:14px;font-weight:700;font-size:16px;margin-top:8px}
+#feed{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory}
+.post{height:100vh;scroll-snap-align:start;position:relative;background:#000;display:flex;align-items:center;justify-content:center}
+.post video{height:100%;width:100%;object-fit:cover}
+.post-info{position:absolute;bottom:90px;left:12px;right:80px}
+.post-info h4{font-size:16px;margin-bottom:4px} .post-info p{font-size:14px;color:#eee}
+.side-bar{position:absolute;right:8px;bottom:110px;display:flex;flex-direction:column;gap:18px;align-items:center}
+.icon-btn{display:flex;flex-direction:column;align-items:center;gap:4px}
+.icon-circle{width:48px;height:48px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;backdrop-filter:blur(10px)}
+.icon-circle.liked{background:#fe2c55}
+.icon-btn span{font-size:12px;font-weight:600}
+.avatar-mini{width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:linear-gradient(45deg,#fe2c55,#25f4ee);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;overflow:hidden}
+.avatar-mini img{width:100%;height:100%;object-fit:cover}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;align-items:center;z-index:100;padding-bottom:8px}
+.nav-item{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#888;gap:3px}
+.nav-item.active{color:#fff} .nav-item i{font-size:22px}
+.plus-btn{background:#fff;color:#000;border-radius:8px;padding:2px 10px;font-size:20px;font-weight:900;position:relative}
+.plus-btn::before{content:'';position:absolute;inset:0;background:#25f4ee;transform:translateX(-3px);border-radius:8px;z-index:-1}
+.plus-btn::after{content:'';position:absolute;inset:0;background:#fe2c55;transform:translateX(3px);border-radius:8px;z-index:-2}
+.page{position:fixed;inset:0;background:#000;z-index:50;display:none;overflow-y:auto;padding-bottom:80px}
+.page.active{display:block}
+.profile-header{padding:30px 16px 16px;text-align:center}
+.big-avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(45deg,#8a4de8,#fe2c55);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;overflow:hidden;position:relative}
+.big-avatar img{width:100%;height:100%;object-fit:cover}
+.stats{display:flex;justify-content:center;gap:24px;margin:16px 0}
+.stat b{display:block;font-size:18px} .stat{font-size:13px;color:#888;text-align:center}
+.edit-btn{border:1px solid #333;background:#222;color:#fff;padding:8px 24px;border-radius:4px;margin:8px 4px}
+input[type=file]{display:none}
+</style>
+</head>
+<body>
+
+<div id="auth">
+<div class="auth-box">
+<h1>Watch<span>Well</span> 🇳🇬</h1>
+<p>Like TikTok for Naija</p>
+<input id="u" placeholder="Choose Username e.g @ada_lagos">
+<input id="p" type="password" placeholder="Create Password">
+<button onclick="register()">Create Account & Enter</button>
+<p style="margin-top:14px;font-size:12px;color:#666">No picture at first. You go upload any picture after login.</p>
+</div>
 </div>
 
-<div class="settings-page" id="mePage"><div style="height:50px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid #222"><i class="fa-solid fa-arrow-left" onclick="showHome()" style="cursor:pointer"></i><span style="font-weight:800">You</span><span style="margin-left:auto" onclick="openSettings()"><i class="fa-solid fa-gear" style="font-size:20px;cursor:pointer"></i></span></div><div style="text-align:center;padding:24px"><div style="position:relative;width:90px;height:90px;margin:0 auto" onclick="document.getElementById('profilePicInput').click()"><div class="avatar" id="meAvatar" style="width:90px;height:90px;border-radius:24px;font-size:40px"><i class="fa-regular fa-user"></i></div><div style="position:absolute;bottom:-4px;right:-4px;width:28px;height:28px;background:linear-gradient(135deg,#ff7a18,#ff3b6e);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #0a0a0f"><i class="fa-solid fa-camera" style="font-size:11px"></i></div></div><input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="uploadProfilePic(event)"><div style="font-weight:900;font-size:20px;margin-top:14px" id="meName">@watchwell_user</div><div style="color:#888;font-size:13px;margin-top:4px" id="meBio">Tap camera to add YOUR picture ✨</div></div></div>
+<div id="feed">
+<div class="post"><video src="https://www.w3schools.com/html/mov_bbb.mp4" loop autoplay muted playsinline onclick="this.paused?this.play():this.pause()"></video>
+<div class="post-info"><h4>@watchwell_official</h4><p>Welcome to WatchWell! 🔥 Swipe up! #naija #lagos</p></div>
+<div class="side-bar">
+<div class="icon-btn"><div class="avatar-mini" id="mini1">W</div></div>
+<div class="icon-btn" onclick="like(this)"><div class="icon-circle">❤️</div><span>2.1K</span></div>
+<div class="icon-btn"><div class="icon-circle">💬</div><span>301</span></div>
+<div class="icon-btn"><div class="icon-circle">↗️</div><span>Share</span></div>
+</div></div>
+</div>
 
-<div class="settings-page" id="settingsPage"><div style="height:50px;display:flex;align-items:center;gap:12px;padding:0 16px"><i class="fa-solid fa-arrow-left" onclick="backToMe()" style="cursor:pointer"></i>Settings</div><div style="padding:16px"><div style="padding:12px 0;border-bottom:1px solid #111;cursor:pointer" onclick="editProfile()">Edit Profile & Picture</div><div style="padding:12px 0;color:#ff3b6e;cursor:pointer" onclick="clearCache()">Clear Cache</div></div></div>
+<div class="page" id="profilePage">
+<div class="profile-header">
+<div class="big-avatar" id="bigAvatar">W</div>
+<h2 id="profileName">@watchwell</h2>
+<div class="stats">
+<div class="stat"><b>1</b>Following</div>
+<div class="stat"><b id="foll">3</b>Followers</div>
+<div class="stat"><b id="likeC">0</b>Likes</div>
+</div>
+<div>
+<button class="edit-btn" onclick="document.getElementById('picInput').click()">📷 Upload Picture</button>
+<button class="edit-btn" onclick="logout()">Logout</button>
+</div>
+<p style="color:#666;font-size:13px;margin-top:16px">Tap 📷 to upload ANY picture you want - like TikTok</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:2px">
+<div style="background:#111;height:160px;display:flex;align-items:center;justify-content:center;color:#333">No videos yet</div>
+</div>
+</div>
 
-<div class="modal" id="postModal"><div class="box"><h3 style="margin-bottom:12px">Post to WatchWell</h3><input id="title" placeholder="Title #watchwell"><input type="file" id="videoFile" accept="video/*"><div style="display:flex;gap:10px;margin-top:12px"><button onclick="closePost()" style="flex:1;background:#222;border:none;color:#fff;padding:12px;border-radius:12px">Cancel</button><button onclick="createPost()" style="flex:1;background:linear-gradient(135deg,#ff7a18,#ff3b6e);border:none;color:#fff;padding:12px;border-radius:12px;font-weight:800">Post</button></div></div></div>
-<div class="modal" id="editModal"><div class="box"><h3>Edit Profile</h3><div style="text-align:center;margin:12px 0"><div class="avatar" id="editAvatar" style="width:70px;height:70px;margin:0 auto;border-radius:20px"><i class="fa-regular fa-user"></i></div><button onclick="document.getElementById('profilePicInput').click()" style="margin-top:8px;background:#ff7a18;border:none;color:#fff;padding:6px 14px;border-radius:20px">Change Picture</button></div><input id="editName" placeholder="Username"><textarea id="editBio" placeholder="Bio"></textarea><div style="display:flex;gap:10px"><button onclick="closeEdit()" style="flex:1;background:#222;border:none;color:#fff;padding:10px;border-radius:12px">Cancel</button><button onclick="saveProfile()" style="flex:1;background:linear-gradient(135deg,#ff7a18,#ff3b6e);border:none;color:#fff;padding:10px;border-radius:12px">Save</button></div></div></div>
-<div class="modal" id="commentModal"><div class="box"><h3>Comments</h3><div id="commentList" style="margin:12px 0;color:#aaa">No comments yet</div><div style="display:flex;gap:8px"><input id="commentInput" placeholder="Add comment..."><button onclick="addComment()" style="background:#ff7a18;border:none;color:#fff;padding:8px 16px;border-radius:20px">Send</button></div><button onclick="closeComment()" style="margin-top:10px;width:100%;background:#222;border:none;color:#fff;padding:8px;border-radius:12px">Close</button></div></div>
+<div class="page" id="explorePage" style="padding:16px"><h3>Explore 🔍</h3><p style="color:#888;margin-top:20px">Trending in Lagos...</p></div>
+<div class="page" id="inboxPage" style="padding:16px"><h3>Inbox 📩</h3><p style="color:#888;margin-top:20px">No new messages</p></div>
+
+<div class="bottom-nav">
+<div class="nav-item active" onclick="showTab('feed',this)"><i>🏠</i>Home</div>
+<div class="nav-item" onclick="showTab('explorePage',this)"><i>🔍</i>Explore</div>
+<div class="nav-item" onclick="document.getElementById('videoInput').click()"><div class="plus-btn">+</div></div>
+<div class="nav-item" onclick="showTab('inboxPage',this)"><i>📩</i>Inbox</div>
+<div class="nav-item" onclick="showTab('profilePage',this)"><i>👤</i>You</div>
+</div>
+
+<input type="file" id="picInput" accept="image/*" onchange="uploadPic(event)">
+<input type="file" id="videoInput" accept="video/*" onchange="uploadVideo(event)">
+
 <script>
-let videos=JSON.parse(localStorage.getItem('watchwell_posts')||'[]');
-let profile=JSON.parse(localStorage.getItem('watchwell_profile')||'{"name":"@watchwell_user","bio":"Tap camera to add YOUR picture ✨","pic":""}');
-function applyProfile(){const a=document.getElementById('meAvatar');const ea=document.getElementById('editAvatar');if(profile.pic){a.innerHTML=`<img src="${profile.pic}">`;ea.innerHTML=`<img src="${profile.pic}">`;}document.getElementById('meName').textContent=profile.name;document.getElementById('meBio').textContent=profile.bio;document.getElementById('editName').value=profile.name;document.getElementById('editBio').value=profile.bio;}
-function render(){const f=document.getElementById('feed');f.innerHTML='';if(videos.length===0){f.innerHTML=`<div class="item" style="flex-direction:column;text-align:center;padding:24px"><div class="top-bar"><div class="logo">WatchWell</div><div class="top-tabs"><span class="active">WatchWell</span><span>Trending</span><span>Naija</span></div></div><div style="font-size:72px">🎬</div><div style="font-size:26px;font-weight:900;margin-top:12px">No videos yet</div><div style="color:#888;margin-top:8px;font-size:14px">Be first to post your vibe!</div><button onclick="openPost()" style="margin-top:20px;background:linear-gradient(135deg,#ff7a18,#ff3b6e);border:none;color:#fff;padding:14px 32px;border-radius:28px;font-weight:900;cursor:pointer">+ Post First Video</button></div>`;return;}videos.forEach((v,i)=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<video src="${v.video}" loop playsinline ${i===0?'autoplay':''} onclick="this.paused?this.play():this.pause()"></video><div class="top-bar"><div class="logo">WatchWell</div><div class="top-tabs"><span class="active">WatchWell</span><span>Trending</span><span>Naija</span></div></div><div class="left-profile" onclick="showMe()"><div class="avatar">${v.avatarPic?`<img src="${v.avatarPic}">`:`<i class='fa-regular fa-user'></i>`}</div><div class="follow-btn" onclick="followUser(${i})"><i class="fa-solid fa-plus"></i></div></div><div class="bottom-actions"><div class="info"><div class="username">${v.user} <span class="verified"><i class="fa-solid fa-check"></i></span></div><div class="desc">${v.desc}</div><div class="music"><i class="fa-solid fa-music"></i> ${v.music}</div></div><div class="actions-row"><div class="action-pill" id="like-${i}" onclick="likeVideo(${i})"><i class="fa-solid fa-heart"></i> <span id="lc-${i}">${v.likes}</span></div><div class="action-pill" onclick="openComment(${i})"><i class="fa-solid fa-message"></i> ${v.comments}</div><div class="action-pill" onclick="shareVideo(${i})"><i class="fa-solid fa-share"></i></div></div></div>`;f.appendChild(d);});}
-function uploadProfilePic(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{profile.pic=r.result;localStorage.setItem('watchwell_profile',JSON.stringify(profile));applyProfile();alert('Your picture added! ✅');};r.readAsDataURL(file);}
-render();applyProfile();
-window.likeVideo=(i)=>{let c=parseInt(videos[i].likes)||0;const el=document.getElementById(`like-${i}`);if(el.classList.contains('liked')){el.classList.remove('liked');c=Math.max(0,c-1);}else{el.classList.add('liked');c++;}videos[i].likes=c.toString();document.getElementById(`lc-${i}`).textContent=c;localStorage.setItem('watchwell_posts',JSON.stringify(videos));};
-window.openPost=()=>document.getElementById('postModal').classList.add('active');
-window.closePost=()=>document.getElementById('postModal').classList.remove('active');
-window.createPost=()=>{const t=document.getElementById('title').value;const f=document.getElementById('videoFile').files[0];if(!t)return alert('Add title');if(!f)return alert('Pick video');const u=URL.createObjectURL(f);videos.unshift({user:profile.name,desc:t,video:u,likes:'0',comments:'0',saves:'0',shares:'0',music:'WatchWell Original Sound',avatarPic:profile.pic});localStorage.setItem('watchwell_posts',JSON.stringify(videos));render();closePost();showHome();};
-window.showHome=()=>{document.getElementById('mePage').classList.remove('active');document.getElementById('settingsPage').classList.remove('active');document.getElementById('feed').style.display='block';document.getElementById('nav-home').classList.add('active');document.getElementById('nav-me').classList.remove('active');};
-window.showMe=()=>{document.getElementById('mePage').classList.add('active');document.getElementById('settingsPage').classList.remove('active');document.getElementById('feed').style.display='none';document.getElementById('nav-home').classList.remove('active');document.getElementById('nav-me').classList.add('active');};
-window.openSettings=()=>{document.getElementById('settingsPage').classList.add('active');document.getElementById('mePage').classList.remove('active');};
-window.backToMe=()=>{document.getElementById('settingsPage').classList.remove('active');document.getElementById('mePage').classList.add('active');};
-window.editProfile=()=>document.getElementById('editModal').classList.add('active');
-window.closeEdit=()=>document.getElementById('editModal').classList.remove('active');
-window.saveProfile=()=>{profile.name=document.getElementById('editName').value||'@watchwell_user';profile.bio=document.getElementById('editBio').value||'WatchWell';localStorage.setItem('watchwell_profile',JSON.stringify(profile));applyProfile();closeEdit();};
-window.openComment=(i)=>{document.getElementById('commentModal').classList.add('active');};
-window.closeComment=()=>document.getElementById('commentModal').classList.remove('active');
-window.addComment=()=>{document.getElementById('commentList').innerHTML=`<div style='color:#fff'>${profile.name}: ${document.getElementById('commentInput').value}</div>`;document.getElementById('commentInput').value='';};
-window.shareVideo=()=>{if(navigator.share)navigator.share({title:'WatchWell',url:location.href});else alert('Link copied!');};
-window.followUser=()=>{alert('Followed! ✅');};
-window.openExplore=()=>{alert('Trending page - Post videos to trend!');};
-window.openInbox=()=>{alert('Alerts: No new alerts');};
-window.clearCache=()=>{if(confirm('Clear all?')){localStorage.clear();videos=[];render();showHome();}};
-</script></body></html>
+let currentUser = localStorage.getItem('ww_user');
+let currentPic = localStorage.getItem('ww_pic');
+if(currentUser){document.getElementById('auth').style.display='none'; loadUser()}
+function register(){
+let u=document.getElementById('u').value.trim(); let p=document.getElementById('p').value.trim();
+if(u.length<3){alert('Username too short');return}
+if(p.length<3){alert('Password too short');return}
+localStorage.setItem('ww_user',u); localStorage.setItem('ww_pass',p);
+currentUser=u; document.getElementById('auth').style.display='none'; loadUser();
+}
+function loadUser(){
+document.getElementById('profileName').innerText='@'+currentUser;
+let letter=currentUser.charAt(0).toUpperCase();
+document.getElementById('bigAvatar').innerHTML=letter;
+document.getElementById('mini1').innerHTML=letter;
+if(currentPic){
+document.getElementById('bigAvatar').innerHTML='<img src="'+currentPic+'">';
+document.getElementById('mini1').innerHTML='<img src="'+currentPic+'">';
+}
+}
+function uploadPic(e){
+let file=e.target.files[0]; let reader=new FileReader();
+reader.onload=function(ev){
+localStorage.setItem('ww_pic',ev.target.result); currentPic=ev.target.result;
+document.getElementById('bigAvatar').innerHTML='<img src="'+ev.target.result+'">';
+document.getElementById('mini1').innerHTML='<img src="'+ev.target.result+'">';
+alert('Profile picture updated! ✅');
+}; reader.readAsDataURL(file);
+}
+function like(el){el.querySelector('.icon-circle').classList.toggle('liked')}
+function showTab(id,btn){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('feed').style.display='none';
+if(id==='feed'){document.getElementById('feed').style.display='block'}else{document.getElementById(id).classList.add('active')}
+document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); btn.classList.add('active');
+}
+function uploadVideo(e){alert('Video selected! For real app, we go add Firebase to save am. For now e dey local.');}
+function logout(){localStorage.clear();location.reload()}
+</script>
+</body>
+</html>
