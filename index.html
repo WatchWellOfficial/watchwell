@@ -6,7 +6,8 @@
 <title>WatchWell - Watch Together</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-body{background:#0a0a0f;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+body{background:#0a0a0f;color:#fff;min-height:100vh;}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .container{width:100%;max-width:400px}
 .logo{text-align:center;margin-bottom:30px}
 .logo h1{font-size:32px;font-weight:800}
@@ -14,42 +15,31 @@ body{background:#0a0a0f;color:#fff;min-height:100vh;display:flex;align-items:cen
 .logo p{color:#888;margin-top:8px}
 .card{background:#16161f;border:1px solid #222;border-radius:16px;padding:28px}
 .tabs{display:flex;gap:8px;margin-bottom:24px;background:#0f0f15;padding:4px;border-radius:10px}
-.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:#888;font-weight:600;transition:0.2s}
+.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:#888;font-weight:600}
 .tab.active{background:#8b5cf6;color:#fff}
 input{width:100%;padding:14px 16px;background:#0f0f15;border:1px solid #222;border-radius:10px;color:#fff;margin-bottom:12px;outline:none}
-input:focus{border-color:#8b5cf6}
-button.main{width:100%;padding:14px;background:#8b5cf6;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
-button.main:disabled{opacity:0.6}
+button.main{width:100%;padding:14px;background:#8b5cf6;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer}
 .msg{margin-top:14px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none}
 .msg.error{background:#2a1215;color:#ff6b6b;display:block}
 .msg.success{background:#122a18;color:#4ade80;display:block}
-.small{text-align:center;margin-top:16px;color:#666;font-size:12px}
+#dashboard{display:none;min-height:100vh}
+.header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;background:#16161f;border-bottom:1px solid #222;position:sticky;top:0}
+.movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.movie-card{background:#16161f;border:1px solid #222;border-radius:12px;overflow:hidden;cursor:pointer}
+.movie-card img{width:100%;height:220px;object-fit:cover}
+.movie-info{padding:10px}
+.player-wrap{display:none;position:fixed;inset:0;background:#000;z-index:100;flex-direction:column}
+.player-wrap.active{display:flex}
+#videoPlayer{flex:1;width:100%;border:none}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="logo">
-    <h1>Watch<span>Well</span></h1>
-    <p>Watch together, anywhere</p>
-  </div>
-  <div class="card">
-    <div class="tabs">
-      <div class="tab active" id="tab-login" onclick="switchTab('login')">Login</div>
-      <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
-    </div>
-    <input type="email" id="email" placeholder="Email address" />
-    <input type="password" id="password" placeholder="Password (min 6 chars)" />
-    <input type="text" id="displayName" placeholder="Display name (for register)" style="display:none;" />
-    <button class="main" id="submitBtn" onclick="handleAuth()">Login</button>
-    <div class="msg" id="msg"></div>
-    <div class="small">Firebase: watchwell-73338 • Anyone can register</div>
-  </div>
-</div>
-
+<div id="auth" class="auth-wrap"><div class="container"><div class="logo"><h1>Watch<span>Well</span></h1><p>Watch together, anywhere</p></div><div class="card"><div class="tabs"><div class="tab active" id="tab-login" onclick="switchTab('login')">Login</div><div class="tab" id="tab-register" onclick="switchTab('register')">Register</div></div><input type="email" id="email" placeholder="Email address" /><input type="password" id="password" placeholder="Password" /><input type="text" id="displayName" placeholder="Display name" style="display:none;" /><button class="main" id="submitBtn" onclick="handleAuth()">Login</button><div class="msg" id="msg"></div></div></div></div>
+<div id="dashboard"><div class="header"><h2>Watch<span>Well</span></h2><div><span id="userEmail" style="font-size:13px;color:#888"></span> <button onclick="logout()" style="padding:8px 14px;background:#222;border:none;border-radius:8px;color:#fff;cursor:pointer;margin-left:10px">Logout</button></div></div><div style="padding:20px;max-width:1200px;margin:0 auto"><div style="font-size:18px;margin:20px 0 12px;font-weight:700">🔥 Trending Now</div><div class="movie-grid" id="movieGrid"></div></div></div>
+<div class="player-wrap" id="playerWrap"><div style="padding:12px 16px;display:flex;justify-content:space-between;background:#111"><span id="nowPlaying">Now Playing</span><button onclick="closePlayer()" style="padding:8px 16px;background:#222;border:none;border-radius:8px;color:#fff">✕ Close</button></div><iframe id="videoPlayer" allowfullscreen allow="autoplay"></iframe></div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 const firebaseConfig = {
   apiKey: "AIzaSyD3fLCeLfBYThUFIAbAIp8jSyEpkhV5Uak",
   authDomain: "watchwell-73338.firebaseapp.com",
@@ -58,58 +48,28 @@ const firebaseConfig = {
   messagingSenderId: "1033589914261",
   appId: "1:1033589914261:web:55c859b3d6f24c8029799c"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-let currentTab = 'login';
-window.switchTab = (tab) => {
-  currentTab = tab;
-  document.getElementById('tab-login').classList.toggle('active', tab==='login');
-  document.getElementById('tab-register').classList.toggle('active', tab==='register');
-  document.getElementById('displayName').style.display = tab==='register' ? 'block' : 'none';
-  document.getElementById('submitBtn').innerText = tab==='register' ? 'Create Account' : 'Login';
-  showMsg('', '');
-};
-function showMsg(text, type){
-  const el = document.getElementById('msg');
-  el.textContent = text;
-  el.className = 'msg ' + type;
-  el.style.display = text ? 'block' : 'none';
-}
-window.handleAuth = async () => {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-  const displayName = document.getElementById('displayName').value.trim();
-  const btn = document.getElementById('submitBtn');
-  if(!email || !password){ showMsg('Please enter email and password', 'error'); return; }
-  if(password.length < 6){ showMsg('Password must be at least 6 characters', 'error'); return; }
-  btn.disabled = true;
-  btn.innerText = 'Please wait...';
-  showMsg('', '');
-  try {
-    if(currentTab === 'register'){
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
-      if(displayName){ await updateProfile(cred.user, { displayName }); }
-      showMsg('✅ Account created! Welcome ' + (displayName || email), 'success');
-      switchTab('login');
-    } else {
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      showMsg('✅ Login successful! Welcome ' + (cred.user.displayName || cred.user.email), 'success');
-    }
-  } catch(err){
-    let msg = err.message;
-    if(err.code === 'auth/email-already-in-use') msg = 'This email already registered. Please login.';
-    if(err.code === 'auth/invalid-email') msg = 'Invalid email address.';
-    if(err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg = 'Wrong email or password.';
-    if(err.code === 'auth/weak-password') msg = 'Password too weak.';
-    if(err.code === 'auth/configuration-not-found') msg = 'Go to Firebase Console > Authentication > Get started > Enable Email/Password';
-    showMsg(msg, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerText = currentTab==='register' ? 'Create Account' : 'Login';
-  }
-};
+let currentTab='login';
+window.switchTab=(tab)=>{currentTab=tab;document.getElementById('tab-login').classList.toggle('active',tab==='login');document.getElementById('tab-register').classList.toggle('active',tab==='register');document.getElementById('displayName').style.display=tab==='register'?'block':'none';document.getElementById('submitBtn').innerText=tab==='register'?'Create Account':'Login';};
+function showMsg(t,type){const el=document.getElementById('msg');el.textContent=t;el.className='msg '+type;el.style.display=t?'block':'none';}
+const movies=[
+{title:"Avengers: Endgame",img:"https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",video:"https://www.youtube.com/embed/TcMBFSGVi1c"},
+{title:"Spider-Man: No Way Home",img:"https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",video:"https://www.youtube.com/embed/JfVOs4VSpmA"},
+{title:"The Batman",img:"https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",video:"https://www.youtube.com/embed/mqqft2x_Aa4"},
+{title:"Black Panther",img:"https://image.tmdb.org/t/p/w500/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",video:"https://www.youtube.com/embed/xjDjIWPWCPU"},
+{title:"Interstellar",img:"https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",video:"https://www.youtube.com/embed/zSWdZVtXT7E"},
+{title:"Joker",img:"https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",video:"https://www.youtube.com/embed/zAGVQLHvwOY"},
+{title:"Avatar 2",img:"https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",video:"https://www.youtube.com/embed/d9MyW72ELq0"},
+{title:"Inception",img:"https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",video:"https://www.youtube.com/embed/YoHD9XEInc0"},
+];
+function renderMovies(){document.getElementById('movieGrid').innerHTML=movies.map((m,i)=>`<div class="movie-card" onclick="playMovie(${i})"><img src="${m.img}"><div class="movie-info"><div style="font-size:13px;font-weight:600">${m.title}</div></div></div>`).join('');}
+renderMovies();
+window.playMovie=(i)=>{document.getElementById('nowPlaying').innerText=movies[i].title;document.getElementById('videoPlayer').src=movies[i].video+"?autoplay=1";document.getElementById('playerWrap').classList.add('active');};
+window.closePlayer=()=>{document.getElementById('videoPlayer').src="";document.getElementById('playerWrap').classList.remove('active');};
+window.handleAuth=async()=>{const email=document.getElementById('email').value.trim();const password=document.getElementById('password').value;const displayName=document.getElementById('displayName').value.trim();const btn=document.getElementById('submitBtn');if(!email||!password){showMsg('Enter email & password','error');return;}btn.disabled=true;btn.innerText='Please wait...';try{if(currentTab==='register'){const cred=await createUserWithEmailAndPassword(auth,email,password);if(displayName)await updateProfile(cred.user,{displayName});}else{await signInWithEmailAndPassword(auth,email,password);}}catch(err){showMsg(err.code==='auth/email-already-in-use'?'Email already exists, login':err.message,'error');btn.disabled=false;btn.innerText=currentTab==='register'?'Create Account':'Login';}};
+window.logout=async()=>{await signOut(auth);};
+onAuthStateChanged(auth,(user)=>{if(user){document.getElementById('auth').style.display='none';document.getElementById('dashboard').style.display='block';document.getElementById('userEmail').innerText=user.displayName||user.email;}else{document.getElementById('auth').style.display='flex';document.getElementById('dashboard').style.display='none';}});
 </script>
 </body>
 </html>
