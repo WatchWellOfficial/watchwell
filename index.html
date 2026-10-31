@@ -1,55 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>WATCHWELL</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>WATCHWELL - For You</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:Arial;height:100vh;overflow:hidden}
-.header{position:fixed;top:0;left:0;right:0;z-index:99;display:flex;justify-content:space-between;padding:14px 16px;background:linear-gradient(to bottom,rgba(0,0,0,0.8),transparent)}
-.logo{font-weight:900;font-size:22px}
-.logo span{color:#ff0050}
-.feed{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory}
-.card{height:100vh;position:relative;scroll-snap-align:start;background:#111;display:flex;align-items:center;justify-content:center}
-video{width:100%;height:100%;object-fit:cover}
-.right{position:absolute;right:12px;bottom:150px;display:flex;flex-direction:column;gap:20px;align-items:center}
-.btn{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:22px}
-.info{position:absolute;bottom:20px;left:12px;right:80px}
-.user{font-weight:900;font-size:15px}
-.title{font-size:16px;margin:6px 0;font-weight:700}
-.desc{font-size:13px;color:#ccc}
-.progress{position:absolute;bottom:0;left:0;height:3px;background:#ff0050}
+* { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+body { background:#000; color:#fff; overflow:hidden; height:100vh; }
+.app { height:100vh; display:flex; flex-direction:column; position:relative; }
+.top-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; position:absolute; top:0; left:0; right:0; z-index:10; background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent); }
+.tabs { display:flex; gap:14px; }
+.tab { font-size:15px; color:#ccc; cursor:pointer; position:relative; padding-bottom:3px; }
+.tab.active { color:#fff; font-weight:700; }
+.tab.active::after { content:''; position:absolute; bottom:-2px; left:25%; width:50%; height:3px; background:#fff; border-radius:2px; }
+.tab-dot { position:absolute; top:-2px; right:-6px; width:7px; height:7px; background:#fe2c55; border-radius:50%; }
+.search-icon { width:26px; height:26px; cursor:pointer; }
+.search-icon svg { fill:#fff; }
+.search-bar { position:absolute; top:48px; left:10px; right:10px; z-index:10; display:flex; align-items:center; background:rgba(255,255,255,0.18); border-radius:8px; padding:7px 10px; backdrop-filter:blur(10px); }
+.search-bar input { flex:1; background:transparent; border:none; outline:none; color:#fff; font-size:14px; }
+.search-bar input::placeholder { color:#ddd; }
+.search-btn { background:rgba(255,255,255,0.25); padding:4px 12px; border-radius:6px; font-size:13px; cursor:pointer; font-weight:600; }
+.right-actions { position:absolute; right:10px; bottom:120px; display:flex; flex-direction:column; gap:18px; z-index:5; align-items:center; }
+.action { display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+.avatar-wrap { position:relative; width:48px; height:48px; }
+.avatar { width:48px; height:48px; border-radius:50%; border:2px solid #fff; object-fit:cover; background:#333; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; }
+.follow-btn { position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:22px; height:22px; background:#fe2c55; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; border:2px solid #000; }
+.follow-btn.following { background:#fff; color:#000; }
+.icon-circle { width:48px; height:48px; display:flex; align-items:center; justify-content:center; font-size:28px; }
+.count { font-size:12px; font-weight:600; margin-top:3px; }
+.bottom-info { position:absolute; left:10px; bottom:75px; right:80px; z-index:5; }
+.username { font-weight:700; font-size:15px; margin-bottom:4px; cursor:pointer; }
+.caption { font-size:14px; }
+.see-more { color:#aaa; cursor:pointer; }
+.music-disc { position:absolute; right:10px; bottom:80px; width:48px; height:48px; border-radius:50%; background:#222; border:3px solid #333; display:flex; align-items:center; justify-content:center; animation:spin 3s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.bottom-nav { height:60px; background:#000; display:flex; justify-content:space-around; align-items:center; border-top:1px solid #222; }
+.nav-item { display:flex; flex-direction:column; align-items:center; gap:2px; cursor:pointer; color:#888; }
+.nav-item.active { color:#fff; }
+.plus-btn { width:44px; height:28px; background:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; position:relative; }
+.plus-btn span { color:#000; font-size:20px; font-weight:700; }
+.logo { position:absolute; top:12px; left:12px; z-index:11; font-weight:900; font-size:20px; }
+.logo span:last-child { color:#fe2c55; }
+.toast { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.8); padding:10px 20px; border-radius:20px; font-size:14px; z-index:100; display:none; }
+.video-container { flex:1; position:relative; overflow:hidden; background:#111; }
+.bg-img { width:100%; height:100%; object-fit:cover; }
 </style>
 </head>
 <body>
-<div class="header"><div class="logo">WATCH<span>WELL</span></div><div style="font-weight:700">For You</div></div>
-<div class="feed" id="feed"></div>
+<div class="app">
+  <div class="logo">WATCH<span>WELL</span></div>
+  <div class="top-nav">
+    <div class="tabs" style="margin-left:130px;">
+      <div class="tab" onclick="switchTab(this,'Drama')">Drama</div>
+      <div class="tab" onclick="switchTab(this,'Following')">Following</div>
+      <div class="tab" onclick="switchTab(this,'Friends')">Friends</div>
+      <div class="tab active" onclick="switchTab(this,'For You')">For You</div>
+    </div>
+    <div class="search-icon" onclick="focusSearch()"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+  </div>
+  <div class="search-bar"><svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><input id="searchInput" placeholder="Explore topics you love" onkeypress="if(event.key==='Enter') doSearch()"><div class="search-btn" onclick="doSearch()">Search</div></div>
+  <div class="video-container" onclick="togglePlay()">
+    <img id="mainVideo" class="bg-img" src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=1000&fit=crop">
+    <div class="right-actions">
+      <div class="action" onclick="toggleFollow(event)"><div class="avatar-wrap"><div class="avatar">SWEET KIDS</div><div class="follow-btn" id="followBtn">+</div></div></div>
+      <div class="action" onclick="likeVideo(event)"><div class="icon-circle" id="likeIcon">🤍</div><div class="count" id="likeCount">290.7K</div></div>
+      <div class="action" onclick="openComments(event)"><div class="icon-circle">💬</div><div class="count">4.8K</div></div>
+      <div class="action" onclick="saveVideo(event)"><div class="icon-circle" id="saveIcon">🔖</div><div class="count">34.8K</div></div>
+      <div class="action" onclick="shareVideo(event)"><div class="icon-circle">↗️</div><div class="count">9.6K</div></div>
+    </div>
+    <div class="bottom-info"><div class="username" onclick="goProfile()">SWEET KIDS</div><div class="caption"><span id="captionText">Welcome home papa @... </span><span class="see-more" onclick="toggleCaption()">See more</span></div></div>
+    <div class="music-disc">SWEET</div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="navTo('Home',this)"><span>🏠</span><span style="font-size:10px;">Home</span></div>
+    <div class="nav-item" onclick="navTo('Explore',this)"><span>🔍</span><span style="font-size:10px;">Explore</span></div>
+    <div class="nav-item" onclick="createVideo()"><div class="plus-btn"><span>+</span></div></div>
+    <div class="nav-item" onclick="navTo('Inbox',this)"><span>💬</span><span style="font-size:10px;">Inbox</span></div>
+    <div class="nav-item" onclick="navTo('Me',this)"><span>👤</span><span style="font-size:10px;">Me</span></div>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
 <script>
-const MOVIES=[
-{title:"WATCHWELL Original - Action Blast",user:"@WatchWellOfficial",likes:"245K",video:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",desc:"Welcome to WATCHWELL! Swipe up!"},
-{title:"Naija Comedy - No Laugh Die",user:"@NaijaMovies",likes:"189K",video:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",desc:"Best comedy on WATCHWELL"},
-{title:"Love & Romance",user:"@LoveHub",likes:"320K",video:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",desc:"Romance on WATCHWELL"}
-];
-function render(){
-let h="";
-MOVIES.forEach((m,i)=>{
-h+=`<div class="card" id="card-${i}"><video id="v-${i}" loop playsinline onclick="this.paused?this.play():this.pause()" src="${m.video}"></video><div class="progress" id="p-${i}"></div><div class="right"><button class="btn">❤️</button><div style="font-size:11px;font-weight:800">${m.likes}</div><button class="btn">↗️</button><button class="btn">💬</button></div><div class="info"><div class="user">${m.user}</div><div class="title">${m.title}</div><div class="desc">${m.desc}</div></div></div>`;
-});
-document.getElementById("feed").innerHTML=h;
-observe();
-play(0);
-}
-function observe(){
-let ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){play(parseInt(e.target.id.split("-")[1]))}});},{threshold:0.7});
-document.querySelectorAll(".card").forEach(c=>ob.observe(c));
-}
-function play(idx){
-document.querySelectorAll("video").forEach(v=>v.pause());
-let v=document.getElementById("v-"+idx);
-if(v){v.play().catch(()=>{});v.ontimeupdate=()=>{document.getElementById("p-"+idx).style.width=(v.currentTime/v.duration*100)+"%";}}
-}
-render();
+let liked=false,following=false,saved=false,expanded=false,likeNum=290700;
+const videos=["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=1000&fit=crop","https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&h=1000&fit=crop","https://images.unsplash.com/photo-1604917112702-3a1a0b2f2e7c?w=600&h=1000&fit=crop"];
+let vidIdx=0;
+function showToast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2000);}
+function switchTab(el,n){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');showToast(n+' feed');changeVideo();}
+function focusSearch(){document.getElementById('searchInput').focus();}
+function doSearch(){let q=document.getElementById('searchInput').value;if(!q)return showToast('Type something');showToast('Searching: '+q);}
+function toggleFollow(e){e.stopPropagation();let b=document.getElementById('followBtn');following=!following;if(following){b.textContent='✓';b.classList.add('following');showToast('Following SWEET KIDS');}else{b.textContent='+';b.classList.remove('following');showToast('Unfollowed');}}
+function likeVideo(e){e.stopPropagation();let ic=document.getElementById('likeIcon');let c=document.getElementById('likeCount');liked=!liked;if(liked){ic.textContent='❤️';likeNum++;showToast('Liked!');}else{ic.textContent='🤍';likeNum--;}c.textContent=(likeNum/1000).toFixed(1)+'K';}
+function openComments(e){e.stopPropagation();showToast('4.8K Comments - Coming soon!');}
+function saveVideo(e){e.stopPropagation();saved=!saved;document.getElementById('saveIcon').textContent=saved?'📌':'🔖';showToast(saved?'Saved':'Unsaved');}
+function shareVideo(e){e.stopPropagation();showToast('Link copied! 9.6K shares');}
+function goProfile(){showToast('Profile: SWEET KIDS');}
+function toggleCaption(){let cap=document.getElementById('captionText');expanded=!expanded;cap.textContent=expanded?'Welcome home papa @SweetKidsOfficial This dance made our day! ❤️ Follow for more sweet moments...':'Welcome home papa @... ';}
+function togglePlay(){showToast('Tap again to pause/play');}
+function changeVideo(){vidIdx=(vidIdx+1)%videos.length;document.getElementById('mainVideo').src=videos[vidIdx];}
+function navTo(n,el){document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));el.classList.add('active');showToast(n);changeVideo();}
+function createVideo(){showToast('Create new video +');}
+let startY=0;document.addEventListener('touchstart',e=>startY=e.touches[0].clientY);document.addEventListener('touchend',e=>{let diff=startY-e.changedTouches[0].clientY;if(Math.abs(diff)>80)changeVideo();});
 </script>
 </body>
 </html>
