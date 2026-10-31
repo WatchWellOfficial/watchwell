@@ -2,179 +2,114 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WATCHWELL</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WatchWell - Watch Together</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-*{font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:#000;color:#fff;overflow:hidden;overscroll-behavior:none}
-#feed{height:100vh;height:100dvh;width:100vw;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
-#feed::-webkit-scrollbar{display:none}
-.slide{height:100vh;height:100dvh;width:100vw;scroll-snap-align:start;scroll-snap-stop:always;position:relative;background:#000;overflow:hidden}
-.slide img{width:100%;height:100%;object-fit:cover}
-.top-bar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;justify-content:center;align-items:center;gap:18px;padding:14px 12px 10px;background:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);font-size:15px;font-weight:600;color:rgba(255,255,255,0.7)}
-.top-bar .active{color:#fff;font-weight:700;border-bottom:2px solid #fff;padding-bottom:3px}
-.right-bar{position:absolute;right:8px;bottom:100px;z-index:20;display:flex;flex-direction:column;align-items:center;gap:18px}
-.avatar-wrap{position:relative;width:48px;height:48px}
-.avatar-wrap img{width:48px;height:48px;border-radius:50%;border:2px solid #fff;object-fit:cover}
-.plus-btn{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:none;color:#fff}
-.action{display:flex;flex-direction:column;align-items:center;gap:3px}
-.action i{font-size:28px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5))}
-.action .count{font-size:12px;font-weight:600}
-.share-text{font-size:12px;font-weight:600;margin-top:2px}
-.whatsapp{width:42px;height:42px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.bottom-info{position:absolute;left:12px;right:78px;bottom:72px;z-index:20;text-shadow:0 1px 2px rgba(0,0,0,0.6)}
-.username{font-weight:700;font-size:15px}
-.caption{font-size:14px;margin-top:4px;line-height:1.25}
-.see-more{font-weight:700;color:#fff}
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;z-index:30;background:#000;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-around;align-items:center;padding:8px 0}
-.nav-item{display:flex;flex-direction:column;align-items:center;color:rgba(255,255,255,0.7);font-size:10px;gap:3px}
-.nav-item.active{color:#fff}
-.nav-item i{font-size:20px}
-.plus-center{width:44px;height:28px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#000;position:relative;box-shadow:-3px 0 #25f4ee, 3px 0 #fe2c55}
-.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.92);color:#000;padding:10px 20px;border-radius:20px;font-size:14px;font-weight:600;z-index:999;animation:fade 1.8s forwards}
-@keyframes fade{0%{opacity:0}15%{opacity:1}75%{opacity:1}100%{opacity:0}}
-.liked{color:#fe2c55 !important}
-#meSheet{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
-#meSheet.show{display:flex}
-.disc{width:40px;height:40px;border-radius:50%;background:conic-gradient(#333,#111);display:flex;align-items:center;justify-content:center;animation:spin 3s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#0a0a0f;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{width:100%;max-width:400px}
+.logo{text-align:center;margin-bottom:30px}
+.logo h1{font-size:32px;font-weight:800}
+.logo span{color:#8b5cf6}
+.logo p{color:#888;margin-top:8px}
+.card{background:#16161f;border:1px solid #222;border-radius:16px;padding:28px}
+.tabs{display:flex;gap:8px;margin-bottom:24px;background:#0f0f15;padding:4px;border-radius:10px}
+.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;color:#888;font-weight:600;transition:0.2s}
+.tab.active{background:#8b5cf6;color:#fff}
+input{width:100%;padding:14px 16px;background:#0f0f15;border:1px solid #222;border-radius:10px;color:#fff;margin-bottom:12px;outline:none}
+input:focus{border-color:#8b5cf6}
+button.main{width:100%;padding:14px;background:#8b5cf6;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;margin-top:8px}
+button.main:disabled{opacity:0.6}
+.msg{margin-top:14px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none}
+.msg.error{background:#2a1215;color:#ff6b6b;display:block}
+.msg.success{background:#122a18;color:#4ade80;display:block}
+.small{text-align:center;margin-top:16px;color:#666;font-size:12px}
 </style>
 </head>
 <body>
-<div id="feed">
-<div class="slide">
-<img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800&q=80">
-<div class="top-bar"><span>Drama</span><span>Following</span><span>Friends</span><span class="active">For You</span><i class="fas fa-search" style="position:absolute;right:16px;top:16px;font-size:20px;color:#fff"></i></div>
-<div class="right-bar">
-<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=15"><button class="plus-btn followBtn"><i class="fas fa-plus" style="font-size:10px"></i></button></div>
-<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">0</span></button>
-<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">0</span></button>
-<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">0</span></button>
-<button class="action shareBtn"><i class="fas fa-share" style="transform:rotate(-20deg)"></i><span class="share-text">Share</span></button>
-<button class="whatsapp waBtn"><i class="fab fa-whatsapp" style="font-size:22px;color:#fff"></i></button>
-<div class="disc"><img src="https://i.pravatar.cc/100?img=20" style="width:22px;height:22px;border-radius:50%"></div>
+<div class="container">
+  <div class="logo">
+    <h1>Watch<span>Well</span></h1>
+    <p>Watch together, anywhere</p>
+  </div>
+  <div class="card">
+    <div class="tabs">
+      <div class="tab active" id="tab-login" onclick="switchTab('login')">Login</div>
+      <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
+    </div>
+    <input type="email" id="email" placeholder="Email address" />
+    <input type="password" id="password" placeholder="Password (min 6 chars)" />
+    <input type="text" id="displayName" placeholder="Display name (for register)" style="display:none;" />
+    <button class="main" id="submitBtn" onclick="handleAuth()">Login</button>
+    <div class="msg" id="msg"></div>
+    <div class="small">Firebase: watchwell-73338 • Anyone can register</div>
+  </div>
 </div>
-<div class="bottom-info"><div class="username">moviesclip_recap</div><div class="caption">Cornered by the fierce N... <span class="see-more">See more</span></div></div>
-<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-border-all"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="far fa-message"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="far fa-user"></i><span>Me</span></div></div>
-</div>
-<div class="slide">
-<img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80">
-<div class="top-bar"><span style="color:#fff;font-weight:900">WATCH<span style="color:#fe2c55">WELL</span></span><span>Drama</span><span>Following</span><span class="active">Friends</span></div>
-<div class="right-bar">
-<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=32"><button class="plus-btn followBtn"><i class="fas fa-plus" style="font-size:10px"></i></button></div>
-<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">152K</span></button>
-<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">2.1K</span></button>
-<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">11K</span></button>
-<button class="action shareBtn"><i class="fas fa-share" style="transform:rotate(-20deg)"></i><span class="share-text">Share</span></button>
-<button class="whatsapp waBtn"><i class="fab fa-whatsapp" style="font-size:22px"></i></button>
-</div>
-<div class="bottom-info"><div class="username">@action_flix</div><div class="caption">When he found out the truth 😱 <span class="see-more">See more</span></div></div>
-<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-compass"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="fas fa-inbox"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="fas fa-user"></i><span>Me</span></div></div>
-</div>
-<div class="slide">
-<img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800">
-<div class="top-bar"><span>Drama</span><span>Following</span><span>Friends</span><span class="active">For You</span></div>
-<div class="right-bar">
-<div class="avatar-wrap"><img src="https://i.pravatar.cc/100?img=8"><button class="plus-btn followBtn"><i class="fas fa-plus"></i></button></div>
-<button class="action likeBtn"><i class="fas fa-heart"></i><span class="count likeCount">89K</span></button>
-<button class="action commentBtn"><i class="fas fa-comment-dots"></i><span class="count">1.3K</span></button>
-<button class="action saveBtn"><i class="fas fa-bookmark"></i><span class="count">5K</span></button>
-<button class="action shareBtn"><i class="fas fa-share"></i><span class="share-text">Share</span></button>
-<button class="whatsapp waBtn"><i class="fab fa-whatsapp"></i></button>
-</div>
-<div class="bottom-info"><div class="username">@dramaqueen</div><div class="caption">He didn't know she was... <span class="see-more">See more</span></div></div>
-<div class="bottom-nav"><div class="nav-item active"><i class="fas fa-house"></i><span>Home</span></div><div class="nav-item" data-go="explore"><i class="fas fa-border-all"></i><span>Explore</span></div><div class="nav-item"><div class="plus-center"><i class="fas fa-plus"></i></div></div><div class="nav-item" data-go="inbox"><i class="far fa-message"></i><span>Inbox</span></div><div class="nav-item" data-go="me"><i class="far fa-user"></i><span>Me</span></div></div>
-</div>
-</div>
-<div id="meSheet">
-<div style="background:#121212;border-radius:20px;padding:24px;width:100%;max-width:340px">
-<h2 style="text-align:center;font-weight:900;font-size:22px">WATCHWELL</h2>
-<p style="text-align:center;color:rgba(255,255,255,0.6);font-size:13px;margin-top:4px">Login to like & comment</p>
-<div id="authBox" style="margin-top:20px;display:flex;flex-direction:column;gap:12px">
-<input id="email" type="email" placeholder="Email" style="background:rgba(255,255,255,0.1);border-radius:30px;padding:14px 18px;outline:none;border:none;font-size:14px;color:#fff">
-<input id="pass" type="password" placeholder="Password (6+ chars)" style="background:rgba(255,255,255,0.1);border-radius:30px;padding:14px 18px;outline:none;border:none;font-size:14px;color:#fff">
-<button id="signUpBtn" style="background:#fe2c55;padding:14px;border-radius:30px;font-weight:700;color:#fff;border:none">Sign Up - Anyone Can Register</button>
-<button id="loginBtn" style="background:#fff;color:#000;padding:14px;border-radius:30px;font-weight:700;border:none">Log In</button>
-<p id="msg" style="text-align:center;font-size:12px;color:#fe2c55;min-height:16px"></p>
-</div>
-<div id="userBox" style="display:none;text-align:center;margin-top:20px">
-<p id="userEmail" style="font-weight:700"></p>
-<button id="logoutBtn" style="margin-top:12px;background:rgba(255,255,255,0.1);width:100%;padding:12px;border-radius:30px;border:none;color:#fff">Log Out</button>
-</div>
-<button id="closeMe" style="margin-top:16px;width:100%;color:rgba(255,255,255,0.5);font-size:13px;background:none;border:none">Close</button>
-</div>
-</div>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 const firebaseConfig = {
-  apiKey: "REPLACE_WITH_YOUR_API_KEY",
-  authDomain: "REPLACE_WITH_YOUR_AUTH_DOMAIN",
-  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-  appId: "REPLACE_WITH_YOUR_APP_ID"
+  apiKey: "AIzaSyD3fLCeLfBYThUFIAbAIp8jSyEpkhV5Uak",
+  authDomain: "watchwell-73338.firebaseapp.com",
+  projectId: "watchwell-73338",
+  storageBucket: "watchwell-73338.firebasestorage.app",
+  messagingSenderId: "1033589914261",
+  appId: "1:1033589914261:web:55c859b3d6f24c8029799c"
 };
-let auth;
-try{
-  const app=initializeApp(firebaseConfig);
-  auth=getAuth(app);
-  onAuthStateChanged(auth,(u)=>{
-    if(u){
-      document.getElementById('authBox').style.display='none';
-      document.getElementById('userBox').style.display='block';
-      document.getElementById('userEmail').innerText=u.email;
-    }else{
-      document.getElementById('authBox').style.display='flex';
-      document.getElementById('userBox').style.display='none';
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+let currentTab = 'login';
+window.switchTab = (tab) => {
+  currentTab = tab;
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-register').classList.toggle('active', tab==='register');
+  document.getElementById('displayName').style.display = tab==='register' ? 'block' : 'none';
+  document.getElementById('submitBtn').innerText = tab==='register' ? 'Create Account' : 'Login';
+  showMsg('', '');
+};
+function showMsg(text, type){
+  const el = document.getElementById('msg');
+  el.textContent = text;
+  el.className = 'msg ' + type;
+  el.style.display = text ? 'block' : 'none';
+}
+window.handleAuth = async () => {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const displayName = document.getElementById('displayName').value.trim();
+  const btn = document.getElementById('submitBtn');
+  if(!email || !password){ showMsg('Please enter email and password', 'error'); return; }
+  if(password.length < 6){ showMsg('Password must be at least 6 characters', 'error'); return; }
+  btn.disabled = true;
+  btn.innerText = 'Please wait...';
+  showMsg('', '');
+  try {
+    if(currentTab === 'register'){
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      if(displayName){ await updateProfile(cred.user, { displayName }); }
+      showMsg('✅ Account created! Welcome ' + (displayName || email), 'success');
+      switchTab('login');
+    } else {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      showMsg('✅ Login successful! Welcome ' + (cred.user.displayName || cred.user.email), 'success');
     }
-  });
-}catch(e){ console.log('Add your real config') }
-function toast(m){const d=document.createElement('div');d.className='toast';d.innerText=m;document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
-document.querySelectorAll('.likeBtn').forEach(b=>b.addEventListener('click',()=>{
-  const icon=b.querySelector('i'); const count=b.querySelector('.likeCount');
-  icon.classList.toggle('liked');
-  let val=count.innerText;
-  if(val.includes('K')){toast(icon.classList.contains('liked')?'Liked ❤️':'Unliked')}
-  else{
-    let n=parseInt(val)||0;
-    if(icon.classList.contains('liked')){n++;count.innerText=n;toast('Liked ❤️')}else{n=Math.max(0,n-1);count.innerText=n;toast('Unliked')}
+  } catch(err){
+    let msg = err.message;
+    if(err.code === 'auth/email-already-in-use') msg = 'This email already registered. Please login.';
+    if(err.code === 'auth/invalid-email') msg = 'Invalid email address.';
+    if(err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg = 'Wrong email or password.';
+    if(err.code === 'auth/weak-password') msg = 'Password too weak.';
+    if(err.code === 'auth/configuration-not-found') msg = 'Go to Firebase Console > Authentication > Get started > Enable Email/Password';
+    showMsg(msg, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerText = currentTab==='register' ? 'Create Account' : 'Login';
   }
-}));
-document.querySelectorAll('.followBtn').forEach(b=>b.addEventListener('click',()=>{b.style.background=b.style.background==='rgb(255, 255, 255)'?'#fe2c55':'#fff';b.style.color=b.style.background==='#fff'?'#000':'#fff';b.innerHTML=b.style.background==='#fff'?'<i class="fas fa-check" style="font-size:10px"></i>':'<i class="fas fa-plus" style="font-size:10px"></i>';toast(b.innerHTML.includes('check')?'Following ✅':'Unfollowed')}));
-document.querySelectorAll('.commentBtn').forEach(b=>b.addEventListener('click',()=>toast('Comments: Coming soon - Connect Firebase Firestore! 💬')));
-document.querySelectorAll('.saveBtn').forEach(b=>b.addEventListener('click',()=>{b.querySelector('i').classList.toggle('liked');toast(b.querySelector('i').classList.contains('liked')?'Saved 🔖':'Unsaved')}));
-document.querySelectorAll('.shareBtn').forEach(b=>b.addEventListener('click',()=>{if(navigator.share){navigator.share({title:'WATCHWELL',url:location.href})}else{navigator.clipboard.writeText(location.href);toast('Link copied! 📋')}}));
-document.querySelectorAll('.waBtn').forEach(b=>b.addEventListener('click',()=>window.open('https://wa.me/?text='+encodeURIComponent('Watch this on WATCHWELL 🔥 '+location.href),'_blank')));
-document.querySelectorAll('.see-more').forEach(s=>s.addEventListener('click',()=>toast('Full movie: She was cornered by the fierce... 🎬')));
-document.querySelectorAll('.top-bar span').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.top-bar .active').forEach(a=>a.classList.remove('active'));t.classList.add('active');toast(t.innerText)}));
-document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>{
-  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-  n.classList.add('active');
-  const go=n.dataset.go;
-  if(go==='me')document.getElementById('meSheet').classList.add('show');
-  else if(go==='explore')toast('Explore: Drama, Action, Comedy, Nollywood 🎬');
-  else if(go==='inbox')toast('Inbox: No new messages');
-  else toast('Home');
-}));
-document.getElementById('closeMe').addEventListener('click',()=>document.getElementById('meSheet').classList.remove('show'));
-document.getElementById('signUpBtn').addEventListener('click',async()=>{
-  const e=document.getElementById('email').value.trim();
-  const p=document.getElementById('pass').value;
-  const m=document.getElementById('msg');
-  if(!e||!p){m.innerText='Enter email & password';return}
-  if(p.length<6){m.innerText='Password must be 6+ chars';return}
-  if(firebaseConfig.apiKey.includes('REPLACE')){m.innerText='⚠️ Replace Firebase config with YOUR real config!';toast('Add real config first');return}
-  try{await createUserWithEmailAndPassword(auth,e,p);m.innerText='';toast('Registered! 🎉 Anyone can register now!')}catch(err){m.innerText=err.message}
-});
-document.getElementById('loginBtn').addEventListener('click',async()=>{
-  const e=document.getElementById('email').value.trim();
-  const p=document.getElementById('pass').value;
-  const m=document.getElementById('msg');
-  try{await signInWithEmailAndPassword(auth,e,p);toast('Logged in ✅')}catch(err){m.innerText=err.message}
-});
-document.getElementById('logoutBtn').addEventListener('click',async()=>{await signOut(auth);toast('Logged out')});
+};
 </script>
 </body>
 </html>
